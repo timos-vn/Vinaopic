@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Vinaoptic</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Vinaoptic</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.974132481628-s3m3ggsdm8vpuq30jslmoac4mh5dfjg7</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>FirebaseScreenReportingEnabled</key>
+	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Vinaoptic cần hiển thị lịch để chọn ngày tháng năm và thời gian.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Vinaoptic cần truy cập camera để chụp ảnh và scanbarcode</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Vinaoptic cần contact tới người dùng.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Vinaoptic cần truy cập Vị trí của bạn để hỗ trợ cho việc tìm kiếm địa chỉ tốt hơn</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Vinaoptic cần lấy toạ độ của thiết bị.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Vinaoptic devices need location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Vinaoptic cần truy cập Vị trí của bạn để hỗ trợ cho việc tìm kiếm địa chỉ tốt hơn</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Vinaoptic motion cho người sử dụng.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Vinaoptic cần truy cập Ảnh để thay đổi Avatar.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Vinaoptic cần nhận dạng giọng nói.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+</dict>
+</plist>

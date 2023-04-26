@@ -1,0 +1,276 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="sse.net.vn.vinaoptic"
+4    android:versionCode="3"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="30" />
+10    <!--
+11         Flutter needs it to communicate with the running application
+12         to allow setting breakpoints, to provide hot reload, etc.
+13    -->
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:4:5-66
+14-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:4:22-64
+15    <uses-permission android:name="android.permission.CAMERA" />
+15-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:5:5-64
+15-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:5:22-62
+16
+17    <uses-feature android:name="android.hardware.camera" />
+17-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-60
+17-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:11:19-57
+18
+19    <uses-permission android:name="android.permission.FLASHLIGHT" />
+19-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-69
+19-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:13:22-66
+20    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+20-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-80
+20-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-77
+21    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+21-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-81
+21-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-78
+22    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+22-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:22:5-79
+22-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:22:22-76
+23    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+23-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:24:5-68
+23-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:24:22-65
+24    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+24-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:26:5-82
+24-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:26:22-79
+25
+26    <application
+26-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:7:4-44:19
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.1.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/d8363d3d5ecad7db4cf0794b4b56d70c/core-1.1.0/AndroidManifest.xml:24:18-86
+28        android:debuggable="true"
+29        android:icon="@mipmap/ic_launcher"
+29-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:9:9-43
+30        android:label="Vinaoptic"
+30-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:8:9-34
+31        android:largeHeap="true"
+31-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-33
+32        android:theme="@style/Theme.AppCompat.NoActionBar" >
+32-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-59
+33        <activity
+33-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:10:9-38:20
+34            android:name="sse.net.vn.vinaoptic.MainActivity"
+34-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:11:13-41
+35            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+35-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:14:13-163
+36            android:hardwareAccelerated="true"
+36-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:15:13-47
+37            android:launchMode="singleTop"
+37-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:12:13-43
+38            android:theme="@style/LaunchTheme"
+38-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:13:13-47
+39            android:windowSoftInputMode="adjustResize" >
+39-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:16:13-55
+40
+41            <!--
+42                 Specifies an Android theme to apply to this Activity as soon as
+43                 the Android process has started. This theme is visible to the user
+44                 while the Flutter UI initializes. After that, this theme continues
+45                 to determine the Window background behind the Flutter UI.
+46            -->
+47            <meta-data
+47-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:21:13-24:17
+48                android:name="io.flutter.embedding.android.NormalTheme"
+48-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:22:15-70
+49                android:resource="@style/NormalTheme" />
+49-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:23:15-52
+50            <!--
+51                 Displays an Android View that continues showing the launch screen
+52                 Drawable until Flutter paints its first frame, then this splash
+53                 screen fades out. A splash screen is useful to avoid any visual
+54                 gap between the end of Android's launch screen and the painting of
+55                 Flutter's first frame.
+56            -->
+57            <meta-data
+57-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:30:13-33:17
+58                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+58-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:31:15-79
+59                android:resource="@drawable/launch_background" />
+59-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:32:15-61
+60
+61            <intent-filter>
+61-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:34:13-37:29
+62                <action android:name="android.intent.action.MAIN" />
+62-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:35:17-68
+62-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:35:25-66
+63
+64                <category android:name="android.intent.category.LAUNCHER" />
+64-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:36:17-76
+64-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:36:27-74
+65            </intent-filter>
+66        </activity>
+67        <!--
+68             Don't delete the meta-data below.
+69             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+70        -->
+71        <meta-data
+71-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:41:9-43:33
+72            android:name="flutterEmbedding"
+72-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:42:13-44
+73            android:value="2" />
+73-->/Users/admin/AndroidStudioProjects2021/vinaoptic/android/app/src/main/AndroidManifest.xml:43:13-30
+74
+75        <activity android:name="com.amolg.flutterbarcodescanner.BarcodeCaptureActivity" />
+75-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:18:9-91
+75-->[:flutter_barcode_scanner] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/flutter_barcode_scanner/intermediates/library_manifest/debug/AndroidManifest.xml:18:19-88
+76
+77        <provider
+77-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
+78            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+78-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
+79            android:authorities="sse.net.vn.vinaoptic.flutter.image_provider"
+79-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
+80            android:exported="false"
+80-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37
+81            android:grantUriPermissions="true" >
+81-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-47
+82            <meta-data
+82-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:16:13-18:75
+83                android:name="android.support.FILE_PROVIDER_PATHS"
+83-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:17:17-67
+84                android:resource="@xml/flutter_image_picker_file_paths" />
+84-->[:image_picker] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:18:17-72
+85        </provider>
+86
+87        <service android:name="io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService" >
+87-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+87-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:8:18-101
+88            <intent-filter>
+88-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:29
+89                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+89-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-78
+89-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:10:25-75
+90            </intent-filter>
+91        </service>
+92        <service
+92-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:13:9-17:19
+93            android:name="com.google.firebase.components.ComponentDiscoveryService"
+93-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:13:18-89
+94            android:directBootAware="true"
+94-->[com.google.firebase:firebase-common:19.3.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/5c1c9b90efaab854e38d5a6e111b214d/jetified-firebase-common-19.3.0/AndroidManifest.xml:34:13-43
+95            android:exported="false" >
+95-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:35:13-37
+96            <meta-data
+96-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-16:85
+97                android:name="com.google.firebase.components:io.flutter.plugins.firebasemessaging.FlutterFirebaseAppRegistrar"
+97-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-127
+98                android:value="com.google.firebase.components.ComponentRegistrar" />
+98-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:16:17-82
+99            <meta-data
+99-->[:firebase_auth] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+100                android:name="com.google.firebase.components:io.flutter.plugins.firebaseauth.FlutterFirebaseAppRegistrar"
+100-->[:firebase_auth] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-122
+101                android:value="com.google.firebase.components.ComponentRegistrar" />
+101-->[:firebase_auth] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+102            <meta-data
+102-->[:firebase_core] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+103                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseAppRegistrar"
+103-->[:firebase_core] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-123
+104                android:value="com.google.firebase.components.ComponentRegistrar" />
+104-->[:firebase_core] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+105            <meta-data
+105-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:36:13-38:85
+106                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+106-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:37:17-109
+107                android:value="com.google.firebase.components.ComponentRegistrar" />
+107-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:38:17-82
+108            <meta-data
+108-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:32:13-34:85
+109                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+109-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:33:17-96
+110                android:value="com.google.firebase.components.ComponentRegistrar" />
+110-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:34:17-82
+111        </service>
+112
+113        <activity
+113-->[:url_launcher] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
+114            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+114-->[:url_launcher] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
+115            android:exported="false"
+115-->[:url_launcher] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
+116            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+116-->[:url_launcher] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
+117        <activity
+117-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:24:9-31:50
+118            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+118-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:25:13-85
+119            android:excludeFromRecents="true"
+119-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:26:13-46
+120            android:exported="true"
+120-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:27:13-36
+121            android:launchMode="singleTask"
+121-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:28:13-44
+122            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
+122-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:29:13-102
+123            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+123-->[com.google.firebase:firebase-auth:19.2.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/2857ffc252cbba25638ef536becf6b16/jetified-firebase-auth-19.2.0/AndroidManifest.xml:30:13-72
+124        <!--
+125             FirebaseMessagingService performs security checks at runtime,
+126             but set to not exported to explicitly avoid allowing another app to call it.
+127        -->
+128        <service
+128-->[com.google.firebase:firebase-messaging:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/652a250f192378e1bba0dd0ca6612645/jetified-firebase-messaging-20.0.1/AndroidManifest.xml:28:9-34:19
+129            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+129-->[com.google.firebase:firebase-messaging:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/652a250f192378e1bba0dd0ca6612645/jetified-firebase-messaging-20.0.1/AndroidManifest.xml:29:13-82
+130            android:exported="false" >
+130-->[com.google.firebase:firebase-messaging:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/652a250f192378e1bba0dd0ca6612645/jetified-firebase-messaging-20.0.1/AndroidManifest.xml:30:13-37
+131            <intent-filter android:priority="-500" >
+131-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:29
+132                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+132-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-78
+132-->[:firebase_messaging] /Users/admin/AndroidStudioProjects2021/vinaoptic/build/firebase_messaging/intermediates/library_manifest/debug/AndroidManifest.xml:10:25-75
+133            </intent-filter>
+134        </service>
+135
+136        <receiver
+136-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:37:9-44:20
+137            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+137-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:38:13-78
+138            android:exported="true"
+138-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:39:13-36
+139            android:permission="com.google.android.c2dm.permission.SEND" >
+139-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:40:13-73
+140            <intent-filter>
+140-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:41:13-43:29
+141                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+141-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:42:17-81
+141-->[com.google.firebase:firebase-iid:20.0.1] /Users/admin/.gradle/caches/transforms-2/files-2.1/1db2fb93b384301022fa5b77da89d17e/jetified-firebase-iid-20.0.1/AndroidManifest.xml:42:25-78
+142            </intent-filter>
+143        </receiver>
+144
+145        <provider
+145-->[com.google.firebase:firebase-common:19.3.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/5c1c9b90efaab854e38d5a6e111b214d/jetified-firebase-common-19.3.0/AndroidManifest.xml:26:9-30:39
+146            android:name="com.google.firebase.provider.FirebaseInitProvider"
+146-->[com.google.firebase:firebase-common:19.3.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/5c1c9b90efaab854e38d5a6e111b214d/jetified-firebase-common-19.3.0/AndroidManifest.xml:27:13-77
+147            android:authorities="sse.net.vn.vinaoptic.firebaseinitprovider"
+147-->[com.google.firebase:firebase-common:19.3.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/5c1c9b90efaab854e38d5a6e111b214d/jetified-firebase-common-19.3.0/AndroidManifest.xml:28:13-72
+148            android:exported="false"
+148-->[com.google.firebase:firebase-common:19.3.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/5c1c9b90efaab854e38d5a6e111b214d/jetified-firebase-common-19.3.0/AndroidManifest.xml:29:13-37
+149            android:initOrder="100" />
+149-->[com.google.firebase:firebase-common:19.3.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/5c1c9b90efaab854e38d5a6e111b214d/jetified-firebase-common-19.3.0/AndroidManifest.xml:30:13-36
+150
+151        <activity
+151-->[com.google.android.gms:play-services-base:17.1.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/3a731a9d4b8207d489ac2b059f426f34/jetified-play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
+152            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+152-->[com.google.android.gms:play-services-base:17.1.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/3a731a9d4b8207d489ac2b059f426f34/jetified-play-services-base-17.1.0/AndroidManifest.xml:24:13-79
+153            android:exported="false"
+153-->[com.google.android.gms:play-services-base:17.1.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/3a731a9d4b8207d489ac2b059f426f34/jetified-play-services-base-17.1.0/AndroidManifest.xml:25:13-37
+154            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+154-->[com.google.android.gms:play-services-base:17.1.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/3a731a9d4b8207d489ac2b059f426f34/jetified-play-services-base-17.1.0/AndroidManifest.xml:26:13-72
+155
+156        <meta-data
+156-->[com.google.android.gms:play-services-basement:17.0.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/d4c2aaa07f3eca2d4504674e0248b6b6/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+157            android:name="com.google.android.gms.version"
+157-->[com.google.android.gms:play-services-basement:17.0.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/d4c2aaa07f3eca2d4504674e0248b6b6/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+158            android:value="@integer/google_play_services_version" />
+158-->[com.google.android.gms:play-services-basement:17.0.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/d4c2aaa07f3eca2d4504674e0248b6b6/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+159    </application>
+160
+161</manifest>
