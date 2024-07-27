@@ -1,32 +1,23 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:vinaoptic/animation/fade_animation.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/core/values/colors.dart';
 import 'package:vinaoptic/models/network/response/get_list_awaiting_customer_response.dart';
 import 'package:vinaoptic/pages/appointment_schedule/appointment_schedule_page.dart';
 import 'package:vinaoptic/pages/cart/cart_page.dart';
-import 'package:vinaoptic/pages/customer/customer_page.dart';
-import 'package:vinaoptic/pages/customer/list_history_customer/list_history_customer_page.dart';
-import 'package:vinaoptic/pages/doctor/doctor_page.dart';
 import 'package:vinaoptic/pages/main/main_bloc.dart';
 import 'package:vinaoptic/pages/main/main_event.dart';
 import 'package:vinaoptic/pages/make_appointment/make_appointment_page.dart';
-import 'package:vinaoptic/pages/news/news_page.dart';
-import 'package:vinaoptic/pages/order_history/order_history_page.dart';
 import 'package:vinaoptic/pages/qr_code/qr_code_page.dart';
 import 'package:vinaoptic/widget/custom_slider.dart';
-import 'package:vinaoptic/widget/pending_action.dart';
 
 import 'component/search_ticket.dart';
 import 'home_bloc.dart';
 import 'home_event.dart';
 import 'home_sate.dart';
-import 'list_customer_awaiting_page.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -158,78 +149,6 @@ class HomePageState extends State<HomePage>  with TickerProviderStateMixin{
             builder: (BuildContext context, HomeState state){
               List<GetListAwaitingCustomerResponseData> _list = _mainBloc.listAwaitingCustomer;
               return  buildPage();
-
-              //   Stack(
-              //   children: <Widget>[
-              //     CustomScrollView(
-              //       physics: ScrollPhysics(),
-              //       slivers: <Widget>[
-              //         // SliverAppBar(
-              //         //     snap: true,
-              //         //     pinned: true,
-              //         //     floating: true,
-              //         //     backgroundColor: Colors.transparent,
-              //         //     actions: [
-              //         //       FadeAnimation(
-              //         //           1.2,
-              //         //           IconButton(
-              //         //               icon: Icon(Icons.favorite, color: Colors.white), onPressed: () {})),
-              //         //       FadeAnimation(
-              //         //           1.3,
-              //         //           IconButton(
-              //         //               icon: Icon(Icons.shopping_cart, color: Colors.white),
-              //         //               onPressed: () {
-              //         //                 Navigator.push(context, MaterialPageRoute(builder: (context)=>CartPage()));
-              //         //               })),
-              //         //     ],
-              //         //     iconTheme: IconThemeData(color: Colors.white),
-              //         //     expandedHeight: 200,
-              //         //     flexibleSpace: FlexibleSpaceBar(
-              //         //       background: Utils.isEmpty(slider) ? Container(color: Colors.blue,) : CustomeCarouselHomePage(
-              //         //         items: slider,
-              //         //       ),
-              //         //     )
-              //         // ),//SliverAp
-              //         SliverList(
-              //           delegate: SliverChildListDelegate([
-              //             menu(),
-              //             SizedBox(
-              //               height: 10,
-              //             ),
-              //             SingleChildScrollView(
-              //               scrollDirection: Axis.vertical,
-              //               child: Utils.isEmpty(_mainBloc.listAwaitingCustomer) ? Center(child: Image.asset("assets/images/nodata.png",fit: BoxFit.contain,),) : Column(
-              //                   children:
-              //                   List.generate(_mainBloc.listAwaitingCustomer.length, (index) {
-              //                     return Padding(
-              //                             padding: const EdgeInsets.only(left: 15,right: 15),
-              //                             child: GestureDetector(
-              //                               onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>ListHistoryCustomerPage(maKH:  _mainBloc.listAwaitingCustomer[index].maKh,nameCustomer: _mainBloc.listAwaitingCustomer[index].tenKh ,))),
-              //                               child: demoTopRatedDr(
-              //                                 recentlys[index]['imgUrl'],
-              //                                 _mainBloc.listAwaitingCustomer[index].tenKh??'',
-              //                                 _mainBloc.listAwaitingCustomer[index].maKh??'',
-              //                                 "",
-              //                                 "",
-              //                               ),
-              //                             ),
-              //                           );
-              //                   })
-              //               ),
-              //             ),
-              //             SizedBox(
-              //               height: 85,
-              //             ),
-              //           ]),
-              //         )
-              //       ],
-              //     ),
-              //     Visibility(
-              //       visible:state is HomeLoading,
-              //       child: PendingAction(),
-              //     ),
-              //   ],
-              // );
             },
           ),
         ));
@@ -372,7 +291,14 @@ class HomePageState extends State<HomePage>  with TickerProviderStateMixin{
                       ),
                       SizedBox(width: 30,),
                       InkWell(
-                        // onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>NewsPage())),
+                        onTap: ()async{
+
+                          final Uri _url = Uri.parse('https://kinhmatvietnam.com.vn/pages/tat-ca-tin-tuc');
+
+                          if (!await launchUrl(_url)) {
+                            throw Exception('Could not launch $_url');
+                          }
+                        },
                         child: Column(
                           children: [
                             Container(
@@ -391,65 +317,65 @@ class HomePageState extends State<HomePage>  with TickerProviderStateMixin{
                         ),
                       ),
                       SizedBox(width: 30,),
-                      InkWell(
-                        // onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderHistoryPage())),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              height: 55,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(16)),
-                                border: Border.all(color: Colors.blueGrey),
-                              ),
-                              child: Icon(MdiIcons.avTimer,color: Colors.blueGrey,size: 25,),
-                            ),
-                            SizedBox(height: 10,),
-                            Text('Lịch sử',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 13),),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 30,),
-                      InkWell(
-                        // onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> Doctor(animationController: animationController))),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              height: 55,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                                border: Border.all(color: Colors.blueGrey),
-                              ),
-                              child: Icon(MdiIcons.doctor,color: Colors.blueGrey,size: 25,),
-                            ),
-                            SizedBox(height: 10,),
-                            Text('Bác sỹ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 13),),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 30,),
-                      InkWell(
-                        // onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerPage(animationController: animationController))),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              height: 55,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueGrey),
-                                  borderRadius: BorderRadius.all(Radius.circular(16))
-                              ),
-                              child: Icon(MdiIcons.humanFemaleFemale,color: Colors.blueGrey,size: 25,),
-                            ),
-                            SizedBox(height: 10,),
-                            Text('Khách hàng',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 13),),
-                          ],
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderHistoryPage())),
+                      //   child: Column(
+                      //     children: [
+                      //       Container(
+                      //         padding: EdgeInsets.all(5),
+                      //         height: 55,
+                      //         width: 55,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.all(Radius.circular(16)),
+                      //           border: Border.all(color: Colors.blueGrey),
+                      //         ),
+                      //         child: Icon(MdiIcons.avTimer,color: Colors.blueGrey,size: 25,),
+                      //       ),
+                      //       SizedBox(height: 10,),
+                      //       Text('Lịch sử',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 13),),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(width: 30,),
+                      // InkWell(
+                      //   // onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> Doctor(animationController: animationController))),
+                      //   child: Column(
+                      //     children: [
+                      //       Container(
+                      //         padding: EdgeInsets.all(5),
+                      //         height: 55,
+                      //         width: 55,
+                      //         decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.all(Radius.circular(16)),
+                      //           border: Border.all(color: Colors.blueGrey),
+                      //         ),
+                      //         child: Icon(MdiIcons.doctor,color: Colors.blueGrey,size: 25,),
+                      //       ),
+                      //       SizedBox(height: 10,),
+                      //       Text('Bác sỹ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 13),),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(width: 30,),
+                      // InkWell(
+                      //   // onTap:()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerPage(animationController: animationController))),
+                      //   child: Column(
+                      //     children: [
+                      //       Container(
+                      //         padding: EdgeInsets.all(5),
+                      //         height: 55,
+                      //         width: 55,
+                      //         decoration: BoxDecoration(
+                      //             border: Border.all(color: Colors.blueGrey),
+                      //             borderRadius: BorderRadius.all(Radius.circular(16))
+                      //         ),
+                      //         child: Icon(MdiIcons.humanFemaleFemale,color: Colors.blueGrey,size: 25,),
+                      //       ),
+                      //       SizedBox(height: 10,),
+                      //       Text('Khách hàng',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 13),),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -464,13 +390,13 @@ class HomePageState extends State<HomePage>  with TickerProviderStateMixin{
                         onTap:()=>pushNewScreen(context, screen: SearchTicketScreen(),withNavBar: false),
                         child: Row(
                           children: [
-                            Text("Find", style: TextStyle(color: grey)),
+                            Text("Find", style: TextStyle(color: Colors.transparent)),
                             SizedBox(
                               width: 5,
                             ),
                             Icon(
                               Icons.search_outlined,
-                              color: grey,
+                              color:  Colors.transparent,
                               size: 16,
                             )
                           ],

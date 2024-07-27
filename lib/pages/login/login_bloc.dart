@@ -160,7 +160,7 @@ class LoginBloc extends Bloc<LoginEvent,LoginState> with Validators{
       box.write(Const.REFRESH_TOKEN, _refreshToken.toString());
 
       box.write(Const.USER_ID, response.user?.userId.toString());
-      box.write(Const.USER_NAME, response.user?.userName.toString());
+      box.write(Const.USER_NAME, userName.toString());
       box.write(Const.PHONE_NUMBER, response.user?.phoneNumber.toString());
       box.write(Const.CODE, response.user?.code.toString());
       box.write(Const.CODE_NAME, response.user?.codeName.toString());

@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vinaoptic/core/values/colors.dart';
-import 'package:vinaoptic/core/values/images.dart';
 import 'package:vinaoptic/pages/appointment_schedule/sua_chua/sua_chua_page.dart';
 
 import 'cho_kham/cho_kham_page.dart';
 import 'cho_tu_van/cho_tu_van_page.dart';
+import 'component/list_data.dart';
 import 'da_hoan_thanh/da_hoan_thanh_page.dart';
 import 'huy/huy_page.dart';
 import 'lap/lap_page.dart';
@@ -16,7 +15,7 @@ class AppointmentSchedulePage extends StatefulWidget {
 }
 
 class _AppointmentSchedulePageState extends State<AppointmentSchedulePage> with TickerProviderStateMixin {
-  List<String> categories = [ "Lịch hẹn","Khám", "Tư vấn","Sửa chữa","Hoàn thành","Huỷ"];
+  List<String> categories = [ "Lịch hẹn","Chờ khám","Khám", "Tư vấn","Chờ thanh toán","Chờ sửa chữa","Sửa","Hoàn thành","Huỷ"];
   late TabController tabController;
   @override
   void initState() {
@@ -81,20 +80,8 @@ class _AppointmentSchedulePageState extends State<AppointmentSchedulePage> with 
                 child: TabBarView(
                     controller: tabController,
                     children: List<Widget>.generate(categories.length, (int index) {
-                      for (int i = 0; i <= categories.length; i++) {
-                        if (index == 0) {
-                          return LapPage();
-                        }else if(index  == 1){
-                          return ChoKhamPage();
-                        }else if(index == 2){
-                          return ChoTuVanPage();
-                        }else if(index == 3){
-                          return FixPage();
-                        }else if(index == 4){
-                          return DaHoanThanhPage();
-                        }else if(index == 5){
-                          return HuyPage();
-                        }
+                      for (int i = 0; i <= categories.length;) {
+                        return ListData(keyValues: index.toString(),);
                       }
                       return Text('');
                     })),

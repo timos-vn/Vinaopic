@@ -679,14 +679,14 @@ class _FormChinhQuangPageState extends State<FormChinhQuangPage> with TickerProv
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FlatButton(
+                  ElevatedButton(
                     child: Text("Thư viện"),
                     onPressed: () {
                       _bloc.add(UploadAvatarEvent(false));
                       Navigator.pop(context);
                     },
                   ),
-                  FlatButton(
+                  ElevatedButton(
                     child: Text("Máy Ảnh"),
                     onPressed: () {
                       _bloc.add(UploadAvatarEvent(true));

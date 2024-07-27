@@ -2,25 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vinaoptic/core/untils/const.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
-import 'package:vinaoptic/core/values/colors.dart';
 import 'package:vinaoptic/pages/account/account_bloc.dart';
 import 'package:vinaoptic/pages/account/account_screen.dart';
-import 'package:vinaoptic/pages/cart/cart_bloc.dart';
-import 'package:vinaoptic/pages/cart/cart_page.dart';
-import 'package:vinaoptic/pages/make_appointment/make_appointment_bloc.dart';
-import 'package:vinaoptic/pages/make_appointment/make_appointment_page.dart';
-import 'package:vinaoptic/pages/news/news_bloc.dart';
-import 'package:vinaoptic/pages/news/news_page.dart';
 import 'package:vinaoptic/pages/notification/notification_bloc.dart';
 import 'package:vinaoptic/pages/notification/notification_page.dart';
-import 'package:vinaoptic/pages/qr_code/qr_code_bloc.dart';
-import 'package:vinaoptic/pages/qr_code/qr_code_page.dart';
-import 'package:vinaoptic/widget/custom_tab_view.dart';
 import 'package:vinaoptic/widget/pending_action.dart';
 import '../home/home_bloc.dart';
 import '../home/home_page.dart';
@@ -257,7 +245,7 @@ class _MainPageState extends State<MainPage> {
 
   void _exitApp(BuildContext context) {
     List<Widget> actions = [
-      FlatButton(
+      ElevatedButton(
         onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
         child: Text('No'.tr,
             style: TextStyle(
@@ -265,7 +253,7 @@ class _MainPageState extends State<MainPage> {
               fontSize: 14,
             )),
       ),
-      FlatButton(
+      ElevatedButton(
         onPressed: () {
           Navigator.of(context, rootNavigator: true).pop();
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');

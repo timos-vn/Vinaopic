@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vinaoptic/core/values/colors.dart';
-import 'package:vinaoptic/pages/search_customer/search_customer_page.dart';
 
 import 'component/phieu_kham_page.dart';
 import 'component/phieu_mua_hang.dart';

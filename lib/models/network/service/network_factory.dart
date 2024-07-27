@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vinaoptic/core/untils/const.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
@@ -240,6 +239,7 @@ class NetWorkFactory {
     return await requestApi(_dio!.post('/api/v1/accounts/RegisterAccountERP', data: request.toJson()));
   }
 
+
   Future<Object> getUnits(String token) async {
     return await requestApi(_dio!.get('/api/v1/accounts/units', options: Options(headers: {"Authorization": "Bearer $token"}))); //["Authorization"] = "Bearer " + token
   }
@@ -385,6 +385,11 @@ class NetWorkFactory {
       "dateTo": dateTo,"key": key,"status": status,
       "page_index": pageIndex,
       "page_count": pageCount,
+    })); //["Authorization"] = "Bearer " + token
+  }
+  Future<Object> deleteAccount(String token, String id) async {
+    return await requestApi(_dio!.post('/api/v1/accounts/delete-account', options: Options(headers: {"Authorization": "Bearer $token"}), queryParameters: {
+      "id": id,
     })); //["Authorization"] = "Bearer " + token
   }
 }

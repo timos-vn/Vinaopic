@@ -73,7 +73,7 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
       isScroll = false;
       _currentPage++;
     }
-    if (event.searchText != null && event.searchText != '') {
+    if (event.searchText != '') {
       if (event.searchText.length > 0) {
         SearchProductState state = await handleCallApi(searchText, _currentPage);
         emitter(state);

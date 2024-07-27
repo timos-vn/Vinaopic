@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as libGetX;
@@ -9,7 +8,6 @@ import 'package:vinaoptic/core/values/colors.dart';
 import 'package:vinaoptic/core/values/images.dart';
 import 'package:vinaoptic/models/network/response/notification_response.dart';
 import 'package:vinaoptic/widget/pending_action.dart';
-import 'package:vinaoptic/widget/slidable_widget.dart';
 
 import 'notification_bloc.dart';
 import 'notification_event.dart';

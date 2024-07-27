@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
-// import 'package:url_launcher/url_launcher.dart';
 import 'package:vinaoptic/core/untils/const.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/core/values/colors.dart';
@@ -23,7 +21,6 @@ import 'package:vinaoptic/models/network/request/update_order_request.dart';
 import 'package:vinaoptic/models/network/response/item_scan.dart';
 import 'package:vinaoptic/models/network/response/search_customer_response.dart';
 
-import 'package:vinaoptic/models/network/response/item_order_detail_response.dart' as itemOrder;
 import 'package:vinaoptic/widget/pending_action.dart';
 
 import 'detail_order_bloc.dart';
@@ -310,15 +307,13 @@ class _DetailOrderPageState extends State<DetailOrderPage>{
                     GestureDetector(
                       onTap: (){
                         FocusScope.of(context).requestFocus(new FocusNode());
-                        DatePicker.showDatePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime(1980, 1, 1),
-                            maxTime: DateTime.now(), onChanged: (date) {
-                            }, onConfirm: (date) {
-                              setState(() {
-                                birthDayController.text = Jiffy(date).format('dd-MM-yyyy');
-                              });
-                            }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                        Utils.dateTimePickerCustom(context).then((date){
+                          if(date != null){
+                            setState(() {
+                              birthDayController.text = Jiffy(date).format('dd-MM-yyyy');
+                            });
+                          }
+                        });
                       },
                       child: Container(
                         decoration: BoxDecoration(

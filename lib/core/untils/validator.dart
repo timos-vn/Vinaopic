@@ -18,9 +18,9 @@ class Validators{
 
   String? checkUsername(BuildContext context, String username) {
     if (Utils.isEmpty(username)) {
-      return 'PleaseInputUserName'.tr;
+      return 'Vui lòng điền tên đăng nhập';
     } else if (username.length < 4) {
-      return 'UsernameNotValid'.tr;
+      return 'Tên đăng nhập quá ngắn';
     } else {
       return null;
     }
@@ -28,9 +28,9 @@ class Validators{
 
   String? checkPass(BuildContext context, String password) {
     if (Utils.isEmpty(password)) {
-      return 'PleaseInputPassword'.tr;
+      return 'Vui lòng điền mật khẩu';
     } else if (password.length < 4) {
-      return 'PasswordLeastCharacter'.tr;
+      return 'Mật khẩu quá ngắn';
     } else {
       return null;
     }
@@ -39,7 +39,7 @@ class Validators{
   String? checkPhoneNumber2(BuildContext context, String phoneNumber) {
     if (Utils.isEmpty(phoneNumber)) return null;
     if (!_phoneRegex.hasMatch(phoneNumber)) {
-      return 'PhoneNotValid'.tr;
+      return 'Số điện thoại không đúng định dạng ';
     } else {
       return null;
     }

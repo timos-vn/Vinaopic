@@ -17,11 +17,13 @@ class CreatesMakeAppointmentRequestBody {
   String? idProvince;
   String? idDistrict;
   String? idCommune;
+  String? maKH;
+  int? createNewCustomer;
 
   CreatesMakeAppointmentRequestBody({this.phoneNumber, this.fullName, this.date,
     this.sex,this.userId, this.address,this.birthDay,this.unit, this.store,this.dienGiai,
     this.status,this.traPhi,this.email,this.image,
-    this.idProvince,this.idDistrict,this.idCommune
+    this.idProvince,this.idDistrict,this.idCommune,this.maKH,this.createNewCustomer
   });
 
   CreatesMakeAppointmentRequestBody.fromJson(Map<String?, dynamic> json) {
@@ -42,6 +44,8 @@ class CreatesMakeAppointmentRequestBody {
     idProvince = json['idProvince'];
     idDistrict = json['idDistrict'];
     idCommune = json['idCommune'];
+    createNewCustomer = json['createNewCustomer'];
+    maKH = json['maKH'];
   }
 
   Map<String?, dynamic> toJson() {
@@ -64,6 +68,8 @@ class CreatesMakeAppointmentRequestBody {
     data['idProvince'] = this.idProvince;
     data['idDistrict'] = this.idDistrict;
     data['idCommune'] = this.idCommune;
+    data['createNewCustomer'] = this.createNewCustomer;
+    data['maKH'] = this.maKH;
     return data;
   }
 }

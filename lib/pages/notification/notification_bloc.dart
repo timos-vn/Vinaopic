@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as libGetX;
 import 'package:get_storage/get_storage.dart';
 import 'package:vinaoptic/core/untils/const.dart';
-import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/models/network/response/notification_response.dart';
 import 'package:vinaoptic/models/network/service/network_factory.dart';
 

@@ -2,8 +2,10 @@ class SearchCustomerResponse {
   List<SearchCustomerResponseData>? data;
   int? statusCode;
   String? message;
+  int? pageIndex;
+  int? totalCount;
 
-  SearchCustomerResponse({this.data, this.statusCode, this.message});
+  SearchCustomerResponse({this.data, this.statusCode, this.message, this.pageIndex, this.totalCount});
 
   SearchCustomerResponse.fromJson(Map<String?, dynamic> json) {
     if (json['data'] != null) {
@@ -14,6 +16,8 @@ class SearchCustomerResponse {
     }
     statusCode = json['status_code'];
     message = json['message'];
+    pageIndex = json['pageIndex'];
+    totalCount = json['totalCount'];
   }
 
   Map<String?, dynamic> toJson() {
@@ -22,7 +26,9 @@ class SearchCustomerResponse {
       data['data'] = this.data?.map((v) => v.toJson()).toList();
     }
     data['status_code'] = this.statusCode;
-    data['message'] = this.message;
+    data['totalCount'] = totalCount;
+    data['message'] = message;
+    data['pageIndex'] = pageIndex;
     return data;
   }
 }
@@ -36,7 +42,19 @@ class SearchCustomerResponseData {
   String? ngaySinh;
   String? email;
 
-  SearchCustomerResponseData({this.maKh, this.tenKh, this.dienThoai,this.sex,this.diaChi,this.ngaySinh,this.email});
+  String? idProvince;
+  String? nameProvince;
+  String? idDistrict;
+  String? nameDistrict;
+  String? idCommune;
+  String? nameCommune;
+
+  SearchCustomerResponseData({
+    this.maKh, this.tenKh, this.dienThoai,this.sex,
+    this.diaChi,this.ngaySinh,this.email,
+    this.idProvince,this.nameProvince,this.idDistrict,
+    this.nameDistrict,this.idCommune,this.nameCommune,
+  });
 
   SearchCustomerResponseData.fromJson(Map<String?, dynamic> json) {
     maKh = json['ma_kh'];
@@ -46,6 +64,13 @@ class SearchCustomerResponseData {
     diaChi = json['dia_chi'];
     ngaySinh = json['ngay_sinh'];
     email = json['email'];
+
+    idProvince = json['idProvince'];
+    nameProvince = json['nameProvince'];
+    idDistrict = json['idDistrict'];
+    nameDistrict = json['nameDistrict'];
+    idCommune = json['idCommune'];
+    nameCommune = json['nameCommune'];
   }
 
   Map<String?, dynamic> toJson() {
@@ -57,6 +82,13 @@ class SearchCustomerResponseData {
     data['dia_chi'] = this.diaChi;
     data['ngay_sinh'] = this.ngaySinh;
     data['email'] = this.email;
+
+    data['idProvince'] = this.idProvince;
+    data['nameProvince'] = this.nameProvince;
+    data['idDistrict'] = this.idDistrict;
+    data['nameDistrict'] = this.nameDistrict;
+    data['idCommune'] = this.idCommune;
+    data['nameCommune'] = this.nameCommune;
     return data;
   }
 }

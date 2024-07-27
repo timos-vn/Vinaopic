@@ -1,4 +1,3 @@
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -88,115 +87,80 @@ class _OptionsFilterDateState extends State<OptionsFilterDate> {
                 SizedBox(height: 10,),
             ],),
             ///FromDate
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'Từ ngày',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontSize: 13),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: DateTimePicker(
-                    type: DateTimePickerType.date,
-                    dateMask: 'd MMM, yyyy',
-                    initialValue: dateFrom.toString(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    decoration: InputDecoration(
-                      suffixIcon:  Icon(Icons.event,color: mainColor,size: 22,),
-                      contentPadding: const EdgeInsets.only(left: 12),
-                      // border: InputBorder.none,
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: grey, width: 1),
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: grey, width: 1),
+            Container(
+              padding:const EdgeInsets.only(left: 12,right: 2,top: 10,bottom: 10),
+              height: 45,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border.all(color: grey.withOpacity(0.8),width: 1),
+                  borderRadius: const BorderRadius.all(Radius.circular(8))
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        const Text('Từ ngày: ',style:  TextStyle(color: Colors.black,fontSize: 12),textAlign: TextAlign.center,),
+                        const SizedBox(width: 5,),
+                        Text(Utils.parseStringDateToString(_bloc.dateFrom.toString(), Const.DATE_TIME_FORMAT,Const.DATE_FORMAT_1),style: const TextStyle(color: Colors.black,fontSize: 12),textAlign: TextAlign.center,maxLines: 1,overflow: TextOverflow.ellipsis,),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 50,
+                      child: InkWell(
+                        onTap: (){
+                          Utils.dateTimePickerCustom(context).then((value){
+                            if(value != null){
+                              setState(() {
+                                _bloc.add(DateFrom(value));
+                              });
+                            }
+                          });
+                        },
+                        child: const Icon(Icons.event,color: Colors.blueGrey,size: 22,),
                       ),
                     ),
-                    style: const TextStyle(fontSize: 13),
-                    locale: const Locale("vi", "VN"),
-                    // icon: Icon(Icons.event),
-                    selectableDayPredicate: (date) {
-                      // Disable weekend days to select from the calendar
-                      // if (date.weekday == 6 || date.weekday == 7) {
-                      //   return false;
-                      // }
-
-                      return true;
-                    },
-                    onChanged: (val) => _bloc.add(DateFrom(Utils.parseStringToDate(val.toString(), Const.DATE_SV_FORMAT_2))),
-                    validator: (result) {
-                     // _bloc.add(DateFrom(Utils.parseStringToDate(result.toString(), Const.DATE_SV_FORMAT_2)));
-                      return null;
-                    },
-                    onSaved: (val) => print(val),
-                  )
-                ),
-              ],
+                  ]),
             ),
             const SizedBox(
               height: 10,
             ),
             ///ToDate
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text(
-                  "Tới ngày",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontSize: 12),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: DateTimePicker(
-                    type: DateTimePickerType.date,
-                    dateMask: 'd MMM, yyyy',
-                    initialValue: dateTo.toString(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    decoration: InputDecoration(
-                      suffixIcon:  Icon(Icons.event,color: mainColor,size: 22,),
-                      contentPadding: const EdgeInsets.only(left: 12),
-                      // border: InputBorder.none,
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: grey, width: 1),
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: grey, width: 1),
+            Container(
+              padding:const EdgeInsets.only(left: 12,right: 2,top: 10,bottom: 10),
+              height: 45,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border.all(color: grey.withOpacity(0.8),width: 1),
+                  borderRadius: const BorderRadius.all(Radius.circular(8))
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        const Text('Tới ngày: ',style:  TextStyle(color: Colors.black,fontSize: 12),textAlign: TextAlign.center,),
+                        const SizedBox(width: 5,),
+                        Text(Utils.parseStringDateToString(_bloc.dateTo.toString(), Const.DATE_TIME_FORMAT,Const.DATE_FORMAT_1),style: const TextStyle(color: Colors.black,fontSize: 12),textAlign: TextAlign.center,maxLines: 1,overflow: TextOverflow.ellipsis,),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 50,
+                      child: InkWell(
+                        onTap: (){
+                          Utils.dateTimePickerCustom(context).then((value){
+                            if(value != null){
+                              setState(() {
+                                _bloc.add(DateTo(value));
+                              });
+                            }
+                          });
+                        },
+                        child: const Icon(Icons.event,color: Colors.blueGrey,size: 22,),
                       ),
                     ),
-                    style: const TextStyle(fontSize: 13),
-                    locale: const Locale("vi", "VN"),
-                    // icon: Icon(Icons.event),
-                    selectableDayPredicate: (date) {
-                      // Disable weekend days to select from the calendar
-                      // if (date.weekday == 6 || date.weekday == 7) {
-                      //   return false;
-                      // }
-
-                      return true;
-                    },
-                    onChanged: (val) => _bloc.add(DateTo(Utils.parseStringToDate(val.toString(), Const.DATE_SV_FORMAT_2))),
-                    validator: (result) {
-                      //_bloc.add(DateTo(Utils.parseStringToDate(result.toString(), Const.DATE_SV_FORMAT_2)));
-                      return null;
-                    },
-                    onSaved: (val) => print(val),
-                  )
-                ),
-              ],
+                  ]),
             ),
-
             const SizedBox(height: 25,),
             ///Button
             Padding(

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -65,18 +64,14 @@ class OptionsInputBloc extends Bloc<OptionsInputEvent, OptionsInputState> {
   void _dateFromEvent(DateFrom event, Emitter<OptionsInputState> emitter)async{
     emitter(InitialOptionsInputState());
     _dateFrom = event.date;
-    if (_dateFrom != null) {
-      emitter(PickDateSuccess());
-      return;
-    }
+    emitter(PickDateSuccess());
+    return;
   }
 
   void _dateToEvent(DateTo event, Emitter<OptionsInputState> emitter)async{
     emitter(InitialOptionsInputState());
     _dateTo = event.date;
-    if (_dateTo != null) {
-      emitter(PickDateSuccess());
-      return;
-    }
+    emitter(PickDateSuccess());
+    return;
   }
 }

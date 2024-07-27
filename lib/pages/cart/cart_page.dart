@@ -1,13 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:vinaoptic/core/untils/const.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/core/values/colors.dart';
 import 'package:vinaoptic/core/values/images.dart';

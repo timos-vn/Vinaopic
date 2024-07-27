@@ -8,6 +8,7 @@ import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/core/values/colors.dart';
 import 'package:vinaoptic/pages/main/main_page.dart';
 import 'package:vinaoptic/widget/text_field_widget.dart';
+import '../sign_up/sign_up_page.dart';
 import 'login_bloc.dart';
 import 'login_event.dart';
 import 'login_sate.dart';
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                 _loginBloc.add(GetUnits());
               }
               else if (state is LoginFailure) {
-                Utils.showNotifySnackBar(context,state.error.toString());
+                Utils.showCustomToast(context,Icons.warning,state.error.toString());
               }
               else if(state is GetInfoUnitsSuccessful){
                 if(_loginBloc.listUnitsName.length == 1){
@@ -89,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                 if(_loginBloc.listStoreName.length == 1){
                   storeName = _loginBloc.listStoreName[0].trim();
                   storeId = _loginBloc.listStoreId[0].trim();
+                  _loginBloc.add(ConfigStore(storeId,storeName));
                 }
               }
               else if (state is GetInfoUserFromDbSuccessful){
@@ -101,12 +103,12 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
               }
               else if(state is SaveEventSuccess){
                 libGetX.Get.off(MainPage(
-                  unitName: unitName,
-                  userName: _loginBloc.username,
+                  unitName: unitName.toString(),
+                  userName: _loginBloc.username.toString(),
                   listInfoUnitsID: _loginBloc.listUnitsId,
                   listInfoUnitsName: _loginBloc.listUnitsName,
-                  storeName: storeName,
-                  storeId: storeId,
+                  storeName: storeName.toString(),
+                  storeId: storeId.toString(),
                 ),transition: libGetX.Transition.zoom);
               }
             },
@@ -153,8 +155,8 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        FadeAnimation(
-                          0.2,
+                        // FadeAnimation(
+                        //   0.2,
                           Text(
                             "Brand New Perspective",
                             style: TextStyle(
@@ -162,21 +164,22 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold),
                           ),
-                        ),
+                        // ),
                         SizedBox(
                           height: 20,
                         ),
-                        FadeAnimation(
-                          0.4,
+                        // FadeAnimation(
+                        //   0.4,
                           Text(
                             "Let's start with our unique collection.",
                             style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),),
+                          ),
+                        // ),
                         SizedBox(
                           height: 100,
                         ),
-                        FadeAnimation(
-                          0.6,
+                        // FadeAnimation(
+                        //   0.6,
                           GestureDetector(
                             onTap: (){
                               setState(() {
@@ -196,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                                 ),
                               ),
                             ),
-                          ),),
+                          ),//),
                       ],
                     ),
                   ),
@@ -206,18 +209,18 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        FadeAnimation(
-                          0.3,
-                          buildInputUserName(context),),
+                        // FadeAnimation(
+                        //   0.3,
+                          buildInputUserName(context),//),
                         const SizedBox(height: 20,),
-                        FadeAnimation(
-                          0.5,
-                          buildInputPassword(context),),
+                        // FadeAnimation(
+                        //   0.5,
+                          buildInputPassword(context),//),
                         SizedBox(
                           height: 40,
                         ),
-                        FadeAnimation(
-                          0.7,
+                        // FadeAnimation(
+                        //   0.7,
                           GestureDetector(
                             onTap: (){
                               if(usernameController.text.isNotEmpty && passwordController.text.isNotEmpty){
@@ -248,11 +251,13 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                                 ),
                               ),
                             ),
-                          ),),
-                        // SizedBox(height: 10),
-                        // FadeAnimation(1.4, _divider()),
+                          ),//),
                         SizedBox(height: 30),
-                        FadeAnimation(0.9,_createAccountLabel()),
+                        // FadeAnimation(1.4, _divider()),
+                        // SizedBox(height: 30),
+                        // // FadeAnimation(0.9,
+                            _createAccountLabel(),
+                        // // ),
                       ],
                     ),
                   ),
@@ -266,34 +271,34 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                             Expanded(
                               child: Column(
                                 children: [
-                                  FadeAnimation(
-                                      0.1,
-                                      Text('${'Xin Chào'.tr} ${_loginBloc.username}',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+                                  // FadeAnimation(
+                                  //     0.1,
+                                      Text('${'Xin Chào'.tr} ${_loginBloc.username}',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),//),
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  FadeAnimation(
-                                    0.3,
-                                    Text('Xin vui lòng kiểm tra thông tin để tiếp tục'.tr,style: TextStyle(color: Colors.white,fontWeight: FontWeight.normal),),),
+                                  // FadeAnimation(
+                                  //   0.3,
+                                    Text('Xin vui lòng kiểm tra thông tin để tiếp tục'.tr,style: TextStyle(color: Colors.white,fontWeight: FontWeight.normal),),//),
                                 ],
                               ),
                             ),
                             Column(
                               children: [
-                                FadeAnimation(
-                                    0.5,
-                                    buildInputUnitName(context)),
+                                // FadeAnimation(
+                                //     0.5,
+                                    buildInputUnitName(context),//),
                                 SizedBox(
                                   height: 25,
                                 ),
-                                FadeAnimation(
-                                  0.7,
-                                  buildInputStoreName(context),),
+                                // FadeAnimation(
+                                //   0.7,
+                                  buildInputStoreName(context),//),
                                 SizedBox(
                                   height: 80,
                                 ),
-                                FadeAnimation(
-                                    1.0,
+                                // FadeAnimation(
+                                //     1.0,
                                     GestureDetector(
                                       onTap: (){
                                         if( !Utils.isEmpty(unitName) && !Utils.isEmpty(storeName)  ){
@@ -324,7 +329,7 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                                           ),
                                         ),
                                       ),
-                                    )),
+                                    ),//),
                               ],
                             )
                           ],
@@ -379,13 +384,13 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
   Widget _createAccountLabel() {
     return InkWell(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage(phoneNumber: usernameController.text,))).then((value){
-        //   if(!Utils.isEmpty(value)){
-        //     setState(() {
-        //       usernameController.text = value;
-        //     });
-        //   }
-        // });
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage(phoneNumber: usernameController.text,))).then((value){
+          if(!Utils.isEmpty(value)){
+            setState(() {
+              usernameController.text = value;
+            });
+          }
+        });
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 0),
@@ -548,15 +553,15 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
   void showBottomSheetSettingsPanel(BuildContext context,String title ,Widget propertyWidget){
     showModalBottomSheet(
         context: context,
-        isDismissible: true,
-        isScrollControlled: true,
+        isDismissible: false,
+        isScrollControlled: false,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
         ),
         backgroundColor: Colors.white,
         builder: (builder){
           return Container(
-            height: MediaQuery.of(context).copyWith().size.height * 0.42,
+            height: MediaQuery.of(context).copyWith().size.height,
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(25),
@@ -600,7 +605,7 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
                             padding: EdgeInsets.zero,
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
+                            // physics: const NeverScrollableScrollPhysics(),
                             children: [
                               Container(
                                 decoration: const BoxDecoration(
@@ -622,7 +627,7 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
           );
         }
     ).then((value)async{
-      if(!Utils.isEmpty(value)){
+      if(value != null){
         print(value[2]);
         print(key);
         if(key =='Unit'){
@@ -643,6 +648,8 @@ class _LoginScreenState extends State<LoginScreen>  with TickerProviderStateMixi
       }
     });
   }
+
+
 
   Widget buildSettings(BuildContext context,List<String> listName, List<String> listID) {
     return StatefulBuilder(

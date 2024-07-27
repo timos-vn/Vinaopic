@@ -18,3 +18,10 @@ class GetInfoAccount extends AccountEvent{
     return 'GetInfoAccount{}';
   }
 }
+class DeleteAccountEvent extends AccountEvent{
+
+  @override
+  String toString() {
+    return 'GetInfoAccount{}';
+  }
+}

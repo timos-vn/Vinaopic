@@ -8,14 +8,14 @@ abstract class SearchCustomerEvent extends Equatable {
 }
 
 class SearchCustomer extends SearchCustomerEvent {
-  final String searchText;
-  final bool isLoadMore;
-  final bool isRefresh;
-  SearchCustomer(this.searchText, {this.isLoadMore = false, this.isRefresh = false});
+  final String searchValues;
+  final int pageIndex;
+
+  SearchCustomer({required this.searchValues,required this.pageIndex});
 
   @override
   String toString() {
-    return 'SearchCustomer{searchText: $searchText, isLoadMore: $isLoadMore, isRefresh: $isRefresh}';
+    return 'SearchCustomer{searchValues: $searchValues}';
   }
 }
 

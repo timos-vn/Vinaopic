@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:vinaoptic/core/values/colors.dart';
 import 'package:vinaoptic/core/values/images.dart';
 import 'package:vinaoptic/pages/search_customer/search_customer_page.dart';
 import 'package:vinaoptic/widget/pending_action.dart';

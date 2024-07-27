@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -7,28 +5,28 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../core/values/colors.dart';
 
 class TextFieldWidget2 extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const TextFieldWidget2(
-      {Key? key, required this.controller,
-        this.textInputAction=TextInputAction.next,
+      {required this.controller,
+        this.textInputAction = TextInputAction.next,
         this.isEnable = true,
         this.onChanged,
         this.isPassword = false,
-        this.inputFormatter,
+        this.inputFormatters,
         this.errorText,
         this.labelText,
         this.hintText,
-        this.keyboardType: TextInputType.text,
+        this.keyboardType = TextInputType.text,
         this.focusNode,
         this.onSubmitted,
         this.prefixIcon,
         this.suffix,
         this.readOnly,
-        this.color,
-        this.isNull,this.enableMaxLine,this.maxLine}) : super(key: key);
+        this.color});
 
   final TextEditingController controller;
   final bool isEnable;
-  final List<TextInputFormatter>? inputFormatter;
+  final List<TextInputFormatter>? inputFormatters;
   final TextInputAction textInputAction;
   final FormFieldSetter<String>? onChanged;
   final bool isPassword;
@@ -42,15 +40,12 @@ class TextFieldWidget2 extends StatefulWidget {
   final dynamic suffix;
   final bool? readOnly;
   final Color? color;
-  final bool? isNull;
-  final bool? enableMaxLine;
-  final int? maxLine;
 
   @override
-  _TextFieldWidget2State createState() => _TextFieldWidget2State();
+  _TextFieldWidgetState createState() => _TextFieldWidgetState();
 }
 
-class _TextFieldWidget2State extends State<TextFieldWidget2> {
+class _TextFieldWidgetState extends State<TextFieldWidget2> {
   late bool _obscureText;
 
   @override
@@ -63,17 +58,15 @@ class _TextFieldWidget2State extends State<TextFieldWidget2> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-
-      readOnly: widget.readOnly == null ? false : widget.readOnly!,
-      enabled: widget.isEnable,
-      focusNode: widget.focusNode,
-      controller: widget.controller,
-      obscureText: _obscureText,
-      textInputAction: widget.textInputAction,
-      textAlignVertical: TextAlignVertical.center,
-      inputFormatters: widget.inputFormatter,
-      maxLines: widget.maxLine,
-      decoration: InputDecoration(
+        readOnly: widget.readOnly??false,
+        enabled: widget.isEnable,
+        focusNode: widget.focusNode,
+        controller: widget.controller,
+        obscureText: _obscureText,
+        textInputAction: widget.textInputAction,
+        // textAlignVertical: TextAlignVertical.,
+        inputFormatters: widget.inputFormatters,
+        decoration: InputDecoration(
           border: const UnderlineInputBorder(borderSide: BorderSide(color: grey, width: 1),),
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: grey, width: 1),
@@ -81,36 +74,50 @@ class _TextFieldWidget2State extends State<TextFieldWidget2> {
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: grey, width: 1),
           ),
-          contentPadding: const EdgeInsets.only(top: 4,bottom: 4,right:30),
+          contentPadding: const EdgeInsets.only(top: 16,bottom: 10,),
           isDense: true,
-          focusColor: primaryColor,
+          focusColor: Colors.white,
           hintText: widget.hintText,
-
           labelText: widget.labelText,
+
           // suffix: widget.suffix == null
           //     ? null
           //     : Icon(widget.suffix,color: grey,size: 20,)
           // ,
-          errorText: widget.errorText,
+          errorText: widget.errorText == '' ? null : widget.errorText,
           prefixIcon: widget.prefixIcon == null
               ? null
               : (widget.prefixIcon is String
               ? Padding(
-            padding: const EdgeInsets.all(12),
             child: Image.asset(
               widget.prefixIcon,
               width: 35,
               height: 35,
               fit: BoxFit.fitHeight,
             ),
+            padding: const EdgeInsets.all(12),
           )
               : Icon(
             widget.prefixIcon,
-            color: accent,
+            color: Colors.black,
             size: 20,
           )),
           suffixIcon: !widget.isPassword
-              ? widget.suffix == null ? null : Icon(widget.suffix,color: grey,size: 20,)
+              ? widget.suffix == null ?
+          widget.controller.text.isNotEmpty ?
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                widget.controller.text ='';
+              });
+            },
+            child:const Icon(
+              Icons.cancel,
+              semanticLabel: 'delete',
+              color: Colors.black,
+            ),
+          ): null
+              : Icon(widget.suffix,color: Colors.black,size: 20,)
               : GestureDetector(
             onTap: () {
               setState(() {
@@ -121,26 +128,26 @@ class _TextFieldWidget2State extends State<TextFieldWidget2> {
               _obscureText ? MdiIcons.eye : MdiIcons.eyeOff,
               semanticLabel:
               _obscureText ? 'show password' : 'hide password',
-              color: blue,
+              color: Colors.black,
             ),
-          ),
+          ) ,
           labelStyle:
-          TextStyle(color: widget.isNull == true ? widget.color : red, fontSize: 11),
-          hintStyle: TextStyle(
+          TextStyle(color: widget.isEnable ? grey : widget.color==null ? widget.color : grey, fontSize: 13),
+          hintStyle: const TextStyle(
             fontSize: 13,
-            color: widget.isNull == true ? widget.color : red,
+            color: grey,
           ),
-          errorStyle: const TextStyle(
-            fontSize: 10,
-            color: red,
-          )),
-      keyboardType: widget.keyboardType,maxLength:  widget.enableMaxLine == true ? 10 : null,
-      onChanged: widget.onChanged,
-      onSubmitted: widget.onSubmitted,
-      style: const TextStyle(
-        fontSize: 13,
-        color: black,
-      ),
+          errorStyle:
+          const TextStyle(
+              fontSize: 10,
+              color: red),
+        ),
+        keyboardType: widget.keyboardType,
+        onChanged: widget.onChanged,
+        onSubmitted: widget.onSubmitted,
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.black,)
     );
   }
 }

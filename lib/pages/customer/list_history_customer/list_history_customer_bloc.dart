@@ -4,10 +4,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart' as libGetX;
 import 'package:vinaoptic/core/untils/const.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
-import 'package:vinaoptic/models/network/request/get_all_customer_request.dart';
 import 'package:vinaoptic/models/network/request/get_list_detail_customer_request.dart';
 import 'package:vinaoptic/models/network/response/detail_customer_response.dart';
-import 'package:vinaoptic/models/network/response/get_all_list_customer_response.dart';
 import 'package:vinaoptic/models/network/service/network_factory.dart';
 
 import 'list_history_customer_event.dart';

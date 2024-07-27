@@ -33,4 +33,10 @@ class LogOutAccountSuccess extends AccountState {
   String toString() {
     return 'LogOutAccountSuccess{}';
   }
+}class DeleteAccountSuccess extends AccountState {
+
+  @override
+  String toString() {
+    return 'DeleteAccountSuccess{}';
+  }
 }

@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 // import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -12,11 +12,9 @@ import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/core/values/colors.dart';
-import 'package:vinaoptic/core/values/lang/localization_service.dart';
 import 'package:vinaoptic/models/network/response/info_store_response.dart';
 import 'package:vinaoptic/models/network/response/search_customer_response.dart';
 import 'package:vinaoptic/pages/make_appointment/search_province/search_province_screen.dart';
-import 'package:vinaoptic/widget/custom_bottom_sheet.dart';
 import 'package:vinaoptic/widget/pending_action.dart';
 import 'package:vinaoptic/widget/text_field_widget3.dart';
 
@@ -41,8 +39,9 @@ class MakeAppointmentPage extends StatefulWidget {
   _MakeAppointmentPageState createState() => _MakeAppointmentPageState();
 }
 
-class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
-
+class _MakeAppointmentPageState extends State<MakeAppointmentPage> with TickerProviderStateMixin {
+  late TabController tabController;
+  List<String> listTabView = ["Đặt lịch","Tạo mới & đặt lịch"];
   List<String> _listSex = [
     'Nam',
     'Nữ',
@@ -50,43 +49,63 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
   ];
 
   bool isFree = false;
+  bool createNewCustomer = false;
   int idSex = 0;
+
   final addressController = TextEditingController();
+  final addressController2 = TextEditingController();
   final FocusNode addressFocus = FocusNode();
 
   final fullNameController = TextEditingController();
+  final fullNameController2 = TextEditingController();
   final FocusNode fullNameFocus = FocusNode();
 
   final notesController = TextEditingController();
+  final notesController2 = TextEditingController();
   final FocusNode notesFocus = FocusNode();
 
+  final emailController2 = TextEditingController();
   final emailController = TextEditingController();
   final FocusNode emailFocus = FocusNode();
 
   final phoneController = TextEditingController();
+  final phoneController2 = TextEditingController();
   final FocusNode phoneFocus = FocusNode();
 
   final storeController = TextEditingController();
+
   final phieuController = TextEditingController();
+
   final birthDayController = TextEditingController();
+  final birthDayController2 = TextEditingController();
   String ngaySinh = '';
+  String ngaySinh2 = '';
   final sexController = TextEditingController();
+  final sexController2 = TextEditingController();
 
   // InfoStoreResponseData? item;
   SearchCustomerResponseData itemReSearch = SearchCustomerResponseData();
+  SearchCustomerResponseData itemReSearch2 = SearchCustomerResponseData();
   late MakeAppointmentBloc _bloc;
   // String _dateOrder = Jiffy(DateTime.now()).format('yyyy-MM-dd');
   String idStore = '';
+
   int dataType = 7;
 
   final _provinceController = TextEditingController();
+  final _provinceController2 = TextEditingController();
   String idProvince = '';
+  String idProvince2 = '';
 
   final _districtController = TextEditingController();
+  final _districtController2 = TextEditingController();
   String idDistrict = '';
+  String idDistrict2 = '';
 
   final _communeController = TextEditingController();
+  final _communeController2 = TextEditingController();
   String idCommune = '';
+  String idCommune2 = '';
 
   CalendarFormat _calendarFormat = CalendarFormat.week;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
@@ -99,6 +118,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    tabController = TabController(vsync: this, length: listTabView.length);
     _bloc = MakeAppointmentBloc(context);
     phieuController.text = 'Phiếu khám';
     idStore = widget.storeId.toString();
@@ -136,427 +156,696 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               }).then((value) {
             Navigator.pop(context);
           });
-        }else if(state is MakeAppointmentFailure) {
+        }
+       else if(state is MakeAppointmentFailure) {
          Utils.showCustomToast(context,Icons.warning_amber_outlined,state.error);
        }
       },
       child: BlocBuilder<MakeAppointmentBloc,MakeAppointmentState>(
         bloc: _bloc,
         builder: (BuildContext context,MakeAppointmentState state){
-          return buildPageNew(context, state);
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: mainColor,
+              title: Text('Đặt lịch hẹn',style: TextStyle(color: Colors.white),),
+              centerTitle: true,
+              actions: [
+                Container(
+                  padding: EdgeInsets.only(right: 10),
+                  alignment: Alignment.centerRight,
+                  child: Switch(
+                    activeColor: Colors.orange,
+                    hoverColor: Colors.orange,
+                    value: isFree,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isFree = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            body: Stack(
+              children: [
+                Container(
+                  color: const Color(0xFFffffff),
+                  padding:  const EdgeInsets.symmetric(horizontal: 3),
+                  margin: const EdgeInsets.only(top: 5),
+                  width: double.infinity,height: double.infinity,
+                  child:  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16,right: 16,top: 5),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.0),
+                            border: Border(
+                                bottom: BorderSide(color: Colors.grey.withOpacity(0.5), width: 2)),
+                          ),
+                          child: TabBar(
+                            controller: tabController,
+                            unselectedLabelColor: Colors.grey.withOpacity(0.8),
+                            labelColor: Colors.red,
+                            labelStyle: const TextStyle(fontWeight: FontWeight.w600),
+                            isScrollable: false,
+                            indicatorPadding: const EdgeInsets.all(0),
+                            indicatorColor: Colors.red,
+                            dividerColor: Colors.red,automaticIndicatorColorAdjustment: true,
+                            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
+                            indicator: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                    style: BorderStyle.solid,
+                                    color: Colors.red,
+                                    width: 2
+                                ),
+                              ),
+                            ),
+                            tabs: List<Widget>.generate(listTabView.length, (int index) {
+                              return Tab(
+                                text: listTabView[index].toString(),
+                              );
+                            }),
+                            onTap: (index){
+                              // setState(() {
+                              //   tabIndex = index;
+                              // });
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 5,),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Container(
+                            color: grey_100,
+                            child: TabBarView(
+                                controller: tabController,
+                                children: List<Widget>.generate(listTabView.length, (int index) {
+                                  for (int i = 0; i <= listTabView.length; i++) {
+                                    if(index == 0){
+                                      return buildPageNew(context,state,true);
+                                    }else{
+                                      return buildPageNew2(context,state,false);
+                                    }
+                                  }
+                                  return const Text('');
+                                })),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: state is MakeAppointmentLoading,
+                  child: PendingAction(),
+                ),
+              ],
+            ),
+          );
         },
       ),
     );
   }
 
-  Widget buildPageNew(BuildContext context,MakeAppointmentState state){
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        title: Text('Đặt lịch hẹn',style: TextStyle(color: Colors.white),),
-        centerTitle: true,
-        actions: [
-          Container(
-            padding: EdgeInsets.only(right: 10),
-            alignment: Alignment.centerRight,
-            child: Switch(
-              activeColor: Colors.orange,
-              hoverColor: Colors.orange,
-              value: isFree,
-              onChanged: (bool value) {
+  Widget buildPageNew(BuildContext context,MakeAppointmentState state,bool createNewCustomer){
+    return SingleChildScrollView(
+      child: GestureDetector(
+        onTap: ()=>FocusScope.of(context).unfocus(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 10,),
+            TableCalendar<Event>(
+              rowHeight: 70,
+              daysOfWeekHeight: 20,
+              // isMargin: 0,
+              simpleSwipeConfig: const SimpleSwipeConfig(
+                verticalThreshold: 0.2,
+                swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct,
+              ),
+              calendarBuilders: CalendarBuilders(
+                // todayBuilder: (context, date, _){
+                //   return Padding(
+                //     padding: const EdgeInsets.only(bottom: 11),
+                //     child: Container(
+                //       decoration: new BoxDecoration(
+                //         color: mainColor.withOpacity(0.8),
+                //         shape: BoxShape.circle,
+                //       ),
+                //       // margin: const EdgeInsets.all(4.0),
+                //       width: 45,
+                //       height: 45,
+                //       child: Center(
+                //         child: Text(
+                //           '${date.day}',
+                //           style: TextStyle(
+                //             fontSize: 16.0,
+                //             color: Colors.white,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   );
+                // },
+                  selectedBuilder: (context, date, _) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 11),
+                      child: Container(
+                        decoration:  BoxDecoration(
+                          color: Colors.black.withOpacity(0.7),
+                          shape: BoxShape.circle,
+                          // borderRadius: BorderRadius.circular(150)
+                        ),
+                        // margin: const EdgeInsets.all(4.0),
+                        width: 45,
+                        height: 45,
+                        child: Center(
+                          child: Text(
+                            '${date.day}',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  markerBuilder: (context,date, event){
+                    return Container(
+                      // margin: const EdgeInsets.only(top: 10,bottom: 0),
+                      // padding: const EdgeInsets.all(1),
+                      //height: 12,
+                      //child: Icon(MdiIcons.emoticonPoop,color: Colors.blueGrey.withOpacity(0.5),),
+                    );
+                  }
+              ),
+              firstDay: kFirstDay,
+              lastDay: kLastDay,
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              // rangeStartDay: _rangeStart,
+              // rangeEndDay: _rangeEnd,
+              formatAnimationCurve: Curves.elasticInOut,
+              formatAnimationDuration: const Duration(milliseconds: 500),
+              calendarFormat: _calendarFormat,
+              rangeSelectionMode: _rangeSelectionMode,
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              onHeaderTapped: (_){
+                //print(_);
+              },
+              locale: 'vi',
+              daysOfWeekStyle: DaysOfWeekStyle(
+                  weekendStyle: TextStyle(
+                      color: Colors.red
+                  ),
+                  weekdayStyle: TextStyle(
+                    color: Colors.black,
+                  )
+              ),
+              headerVisible: false,
+              // headerStyle: HeaderStyle(
+              //   leftChevronIcon: Icon(Icons.arrow_back_ios, size: 15, color: Colors.black),
+              //   rightChevronIcon: Icon(Icons.arrow_forward_ios, size: 15, color: Colors.black),
+              //   titleTextStyle: GoogleFonts.montserrat(
+              //       color: Colors.yellow,
+              //       fontSize: 16),
+              //   titleCentered: true,
+              //   formatButtonDecoration: BoxDecoration(
+              //     color: Colors.white60,
+              //     borderRadius: BorderRadius.circular(20),
+              //   ),
+              //   formatButtonVisible: false,
+              //   formatButtonTextStyle: GoogleFonts.montserrat(
+              //       color: Colors.black,
+              //       fontSize: 13,
+              //       fontWeight: FontWeight.bold),
+              // ),
+              calendarStyle: CalendarStyle(
+                // selectedTextStyle: TextStyle(
+                //   backgroundColor: Colors.white,
+                //   color: mainColor
+                // ),
+                  todayTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16
+                  ),
+                  weekendTextStyle: TextStyle(
+                      color: Colors.red,
+                      fontSize: 16
+                  ),
+                  outsideTextStyle: const TextStyle(color: Colors.blueGrey),
+                  withinRangeTextStyle: const TextStyle(color: Colors.grey),
+                  defaultTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16
+                  ),
+                  canMarkersOverflow: true,
+                  outsideDaysVisible: false,
+                  holidayTextStyle: const TextStyle(
+                      color: Colors.yellow
+                  )
+              ),
+              onDaySelected: _onDaySelected,
+              // onRangeSelected: _onRangeSelected,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
                 setState(() {
-                  isFree = value;
+                  _focusedDay = focusedDay;
                 });
               },
             ),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: GestureDetector(
-              onTap: ()=>FocusScope.of(context).unfocus(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Calendar(
-                  //   startOnMonday: true,
-                  //   weekDays: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-                  //   events: Utils.events,
-                  //   isExpandable: false,
-                  //   eventDoneColor: Colors.green,
-                  //   selectedColor: Colors.pink,
-                  //   hideBottomBar: true,
-                  //   todayColor: Colors.blue,onDateSelected: (DateTime date){
-                  //     _dateOrder = Jiffy(date).format('yyyy-MM-dd');
-                  //     print(_dateOrder);
-                  // },
-                  //   eventListBuilder: (BuildContext context, List<NeatCleanCalendarEvent> _selectesdEvents) {
-                  //     return new Container();
-                  //   },
-                  //   eventColor: Colors.grey,
-                  //   locale: 'vi_VN',
-                  //   todayButtonText: 'Heute',hideTodayIcon: true,
-                  //   expandableDateFormat: 'EEEE, dd. MMMM yyyy',
-                  //   dayOfWeekStyle: TextStyle(
-                  //       color: Colors.black, fontWeight: FontWeight.w800, fontSize: 11),
-                  // ),
-                  const SizedBox(height: 10,),
-                  TableCalendar<Event>(
-                    rowHeight: 70,
-                    daysOfWeekHeight: 20,
-                    // isMargin: 0,
-                    simpleSwipeConfig: const SimpleSwipeConfig(
-                      verticalThreshold: 0.2,
-                      swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct,
-                    ),
-                    calendarBuilders: CalendarBuilders(
-                      // todayBuilder: (context, date, _){
-                      //   return Padding(
-                      //     padding: const EdgeInsets.only(bottom: 11),
-                      //     child: Container(
-                      //       decoration: new BoxDecoration(
-                      //         color: mainColor.withOpacity(0.8),
-                      //         shape: BoxShape.circle,
-                      //       ),
-                      //       // margin: const EdgeInsets.all(4.0),
-                      //       width: 45,
-                      //       height: 45,
-                      //       child: Center(
-                      //         child: Text(
-                      //           '${date.day}',
-                      //           style: TextStyle(
-                      //             fontSize: 16.0,
-                      //             color: Colors.white,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   );
-                      // },
-                        selectedBuilder: (context, date, _) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 11),
-                            child: Container(
-                              decoration:  BoxDecoration(
-                                color: Colors.black.withOpacity(0.7),
-                                shape: BoxShape.circle,
-                                // borderRadius: BorderRadius.circular(150)
-                              ),
-                              // margin: const EdgeInsets.all(4.0),
-                              width: 45,
-                              height: 45,
-                              child: Center(
-                                child: Text(
-                                  '${date.day}',
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        markerBuilder: (context,date, event){
-                          return Container(
-                            // margin: const EdgeInsets.only(top: 10,bottom: 0),
-                            // padding: const EdgeInsets.all(1),
-                            //height: 12,
-                            //child: Icon(MdiIcons.emoticonPoop,color: Colors.blueGrey.withOpacity(0.5),),
-                          );
-                        }
-                    ),
-                    firstDay: kFirstDay,
-                    lastDay: kLastDay,
-                    focusedDay: _focusedDay,
-                    selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                    // rangeStartDay: _rangeStart,
-                    // rangeEndDay: _rangeEnd,
-                    formatAnimationCurve: Curves.elasticInOut,
-                    formatAnimationDuration: const Duration(milliseconds: 500),
-                    calendarFormat: _calendarFormat,
-                    rangeSelectionMode: _rangeSelectionMode,
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    onHeaderTapped: (_){
-                      //print(_);
-                    },
-                    locale: 'vi',
-                    daysOfWeekStyle: DaysOfWeekStyle(
-                        weekendStyle: TextStyle(
-                          color: Colors.red
-                        ),
-                        weekdayStyle: TextStyle(
-                          color: Colors.black,
-                        )
-                    ),
-                    headerVisible: false,
-                    // headerStyle: HeaderStyle(
-                    //   leftChevronIcon: Icon(Icons.arrow_back_ios, size: 15, color: Colors.black),
-                    //   rightChevronIcon: Icon(Icons.arrow_forward_ios, size: 15, color: Colors.black),
-                    //   titleTextStyle: GoogleFonts.montserrat(
-                    //       color: Colors.yellow,
-                    //       fontSize: 16),
-                    //   titleCentered: true,
-                    //   formatButtonDecoration: BoxDecoration(
-                    //     color: Colors.white60,
-                    //     borderRadius: BorderRadius.circular(20),
-                    //   ),
-                    //   formatButtonVisible: false,
-                    //   formatButtonTextStyle: GoogleFonts.montserrat(
-                    //       color: Colors.black,
-                    //       fontSize: 13,
-                    //       fontWeight: FontWeight.bold),
-                    // ),
-                    calendarStyle: CalendarStyle(
-                      // selectedTextStyle: TextStyle(
-                      //   backgroundColor: Colors.white,
-                      //   color: mainColor
-                      // ),
-                        todayTextStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16
-                        ),
-                        weekendTextStyle: TextStyle(
-                            color: Colors.red,
-                            fontSize: 16
-                        ),
-                        outsideTextStyle: const TextStyle(color: Colors.blueGrey),
-                        withinRangeTextStyle: const TextStyle(color: Colors.grey),
-                        defaultTextStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16
-                        ),
-                        canMarkersOverflow: true,
-                        outsideDaysVisible: false,
-                        holidayTextStyle: const TextStyle(
-                            color: Colors.yellow
-                        )
-                    ),
-                    onDaySelected: _onDaySelected,
-                    // onRangeSelected: _onRangeSelected,
-                    onFormatChanged: (format) {
-                      if (_calendarFormat != format) {
-                        setState(() {
-                          _calendarFormat = format;
-                        });
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
-                      setState(() {
-                        _focusedDay = focusedDay;
-                      });
-                    },
-                  ),
-                  Center(child: avatarWidget()),
-                  GestureDetector(
-                      onTap: (){
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        showGenPopupStore(context,'Cơ sở','Store',Const.listInfoStore);
-                      },
-                      child: inputWidget(hideText: 'Cơ sở',iconPrefix: MdiIcons.storefrontOutline,iconSuffix: Icons.arrow_drop_down_outlined,textInputAction: TextInputAction.done,isEnable: false,controller: storeController, onTapSuffix: (){})),
-                  GestureDetector(
-                      onTap: (){
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        showGenPopup(context,'Loại phiếu','Phieu',_bloc.listPhieu);
-                      },
-                      child: inputWidget(hideText: 'Phiếu',iconPrefix: MdiIcons.idCard,iconSuffix: Icons.arrow_drop_down_outlined,isEnable: false,textInputAction: TextInputAction.done,controller: phieuController, onTapSuffix: (){})),
-                  inputWidget(hideText: 'Họ & tên',iconPrefix: MdiIcons.accountSupervisorCircleOutline,iconSuffix: Icons.search_outlined,
-                      onTapSuffix: (){
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchCustomerPage(typeView: 0,))).then((value){
-                          if(value != null){
-                            itemReSearch = value;
-                            setState(() {
-                              phoneController.text = itemReSearch.dienThoai.toString();
-                              fullNameController.text  = itemReSearch.tenKh.toString();
-                              addressController.text = itemReSearch.diaChi.toString();
-                              emailController.text = itemReSearch.email.toString();
-                              if(itemReSearch.ngaySinh!=null){
-                                ngaySinh = itemReSearch.ngaySinh.toString();
-                                birthDayController.text = Jiffy(itemReSearch.ngaySinh).format('dd-MM-yyyy');
+            Row(
+              children: [
+                const SizedBox(width: 20,),
+                avatarWidget(),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      inputWidget(hintText: 'Số điện thoại',iconPrefix: MdiIcons.phoneDialOutline,iconSuffix: Icons.search_outlined, onTap: (){
+                            FocusScope.of(context).requestFocus(new FocusNode());
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchCustomerPage(typeView: 0,))).then((value){
+                              if(value != null){
+                                itemReSearch = value;
+                                setState(() {
+                                  phoneController.text = itemReSearch.dienThoai.toString();
+                                  fullNameController.text  = itemReSearch.tenKh.toString();
+                                  addressController.text = itemReSearch.diaChi.toString();
+                                  emailController.text = itemReSearch.email.toString().replaceAll('null', '');
+                                  _provinceController.text = itemReSearch.nameProvince.toString().trim().replaceAll('null', '');
+                                  idProvince = itemReSearch.idProvince.toString().trim();
+                                  _districtController.text = itemReSearch.nameDistrict.toString().trim().replaceAll('null', '');
+                                  idDistrict = itemReSearch.idDistrict.toString().trim();
+                                  _communeController.text = itemReSearch.nameCommune.toString().trim().replaceAll('null', '');
+                                  idCommune = itemReSearch.idCommune.toString().trim();
+                                  if(itemReSearch.ngaySinh!=null){
+                                    ngaySinh = itemReSearch.ngaySinh.toString();
+                                    birthDayController.text = Jiffy(itemReSearch.ngaySinh).format('dd-MM-yyyy');
+                                  }
+                                  sexController.text = itemReSearch.sex == 2 ? 'Nữ' : itemReSearch.sex == 1 ? 'Nam' : 'Khác';
+                                  idSex = itemReSearch.sex!;
+                                });
                               }
-                              sexController.text = itemReSearch.sex == 2 ? 'Nữ' : itemReSearch.sex == 1 ? 'Nam' : 'Khác';
-                              idSex = itemReSearch.sex!;
                             });
                           }
-                        });
-                  }
-                  ,controller: fullNameController,textInputAction: TextInputAction.done,focusNode: fullNameFocus),
-                  GestureDetector(
-                      onTap: (){
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        DatePicker.showDatePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime.now().add(Duration(days: -29200)),
-                            maxTime: DateTime.now(), onChanged: (date) {
-                            }, onConfirm: (date) {
-                              setState(() {
-                                ngaySinh = Jiffy(date).format('yyyy-MM-dd');
-                                birthDayController.text = Jiffy(date).format('dd-MM-yyyy');
-                              });//undefine
-                            }, currentTime: DateTime(1995,3,4), locale: LocaleType.vi);
-                      },
-                      child: inputWidget(hideText: 'Ngày sinh',controller: birthDayController,iconPrefix: MdiIcons.calendarAccountOutline,iconSuffix: Icons.arrow_drop_down_outlined,isEnable: false,textInputAction: TextInputAction.done,onTapSuffix: ()=> print('123'))),
-                  GestureDetector(
-                      onTap: (){
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        showGenPopup(context,'Giới tính','Sex',_listSex);
-                      },
-                      child: inputWidget(hideText: 'Giới tính',controller: sexController,iconPrefix: MdiIcons.accountHeartOutline,iconSuffix: Icons.arrow_drop_down_outlined,textInputAction: TextInputAction.done,isEnable: false, onTapSuffix: (){},)),
-                  InkWell(
-                      onTap: (){
-                        FocusScope.of(context).unfocus();
-                        pushNewScreen(context, screen: const SearchProvinceScreen(
-                          idProvince: '',idDistrict: '',title:'Danh sách Tỉnh thành',typeGetList: 0,
-                        ),withNavBar: false).then((value){
-                          if(value[0] == 'Yeah'){
-                            idProvince = value[1].toString().trim();
-                            _provinceController.text = value[2].toString().trim();
-                          }
-                          setState(() {});
-                        });
-                      },
-                      child: inputWidget(hideText: 'Chọn tỉnh/thành',controller: _provinceController,
-                        textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
-                        onSubmitted: ()=>null,)
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                            onTap: (){
-                              FocusScope.of(context).unfocus();
-                              if(idProvince.isNotEmpty){
-                                pushNewScreen(context, screen: SearchProvinceScreen(
-                                  idProvince: idProvince,idDistrict: '',title:'Danh sách Quận huyện',typeGetList: 0,
-                                ),withNavBar: false).then((value){
-                                  if(value[0] == 'Yeah'){
-                                    idDistrict = value[1].toString().trim();
-                                    _districtController.text = value[2].toString().trim();
-                                  }
-                                  setState(() {});
-                                });
-                              }else{
-                                Utils.showCustomToast(context, Icons.warning_amber_outlined, 'Vui lòng chọn Tỉnh/Thành trước');
-                              }
-                            },
-                            child: inputWidget(hideText: 'Chọn Quân/Huyện',controller: _districtController,
-                              textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
-                              onSubmitted: ()=>null,)
-                        ),
-                      ),
-                      Expanded(
-                        child: InkWell(
-                            onTap: (){
-                              FocusScope.of(context).unfocus();
-                              if(idDistrict.isNotEmpty){
-                                pushNewScreen(context, screen: SearchProvinceScreen(
-                                  idProvince: idProvince,idDistrict: idDistrict,title:'Danh sách Xã phường',typeGetList: 0,
-                                ),withNavBar: false).then((value){
-                                  if(value[0] == 'Yeah'){
-                                    idCommune = value[1].toString().trim();
-                                    _communeController.text = value[2].toString().trim();
-                                  }
-                                  setState(() {});
-                                });
-                              }else{
-                                Utils.showCustomToast(context, Icons.warning_amber_outlined, 'Vui lòng chọn Quân/Huyện trước');
-                              }
-                            },
-                            child: inputWidget(hideText: 'Chọn Xã/Phường',controller: _communeController,
-                              textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
-                              onSubmitted: ()=>null,)
-                        ),
-                      ),
+                          ,controller: phoneController,textInputAction: TextInputAction.done,focusNode: fullNameFocus,readOnly: createNewCustomer, onTapSuffix: () {  }),
+                      inputWidget(readOnly: createNewCustomer,
+                          hintText: 'Họ & tên',iconPrefix: MdiIcons.human,controller: fullNameController,focusNode: phoneFocus,textInputAction: TextInputAction.done,inputNumber: true, onTapSuffix: (){}),
+                      const SizedBox(height: 10,),
                     ],
                   ),
-                  inputWidget(hideText: 'Địa chỉ',iconPrefix: MdiIcons.mapMarkerRadiusOutline,controller: addressController,focusNode: addressFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
-                  inputWidget(hideText: '0963004959',iconPrefix: MdiIcons.phoneAlertOutline,controller: phoneController,focusNode: phoneFocus,textInputAction: TextInputAction.done,inputNumber: true, onTapSuffix: (){}),
-                  inputWidget(hideText: 'Email',iconPrefix: MdiIcons.emailEditOutline,controller: emailController,focusNode: emailFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
-                  inputWidget(hideText: 'Ghi chú',iconPrefix: MdiIcons.clipboardAccountOutline,controller: notesController,focusNode: notesFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
-                  buildButtonSubmit(),
-                  SizedBox(height: 80,),
-                ],
-              ),
+                )
+              ],
             ),
-          ),
-          Visibility(
-            visible: state is MakeAppointmentLoading,
-            child: PendingAction(),
-          ),
-        ],
+            inputWidget(readOnly: true,hintText: 'Cơ sở',iconPrefix: MdiIcons.storefrontOutline,iconSuffix: Icons.arrow_drop_down_outlined,textInputAction: TextInputAction.done,isEnable: false,controller: storeController, onTapSuffix: (){},onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              showGenPopupStore(context,'Cơ sở','Store',Const.listInfoStore);
+            }),
+            inputWidget(readOnly: true,hintText: 'Phiếu',iconPrefix: MdiIcons.idCard,iconSuffix: Icons.arrow_drop_down_outlined,isEnable: false,textInputAction: TextInputAction.done,controller: phieuController, onTapSuffix: (){},onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              showGenPopup(context,'Loại phiếu','Phieu',_bloc.listPhieu);
+            }),
+
+            inputWidget(readOnly: true,hintText: 'Ngày sinh',controller: birthDayController,iconPrefix: MdiIcons.calendarAccountOutline,iconSuffix: Icons.arrow_drop_down_outlined,isEnable: false,textInputAction: TextInputAction.done,onTapSuffix: ()=> print('123'),onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              Utils.dateTimePickerCustom(context).then((date){
+                if(date != null){
+                  setState(() {
+                    ngaySinh = Jiffy(date).format('yyyy-MM-dd');
+                    birthDayController.text = Jiffy(date).format('dd-MM-yyyy');
+                  });
+                }
+              });
+            }),
+            inputWidget(readOnly: true,hintText: 'Giới tính',controller: sexController,iconPrefix: MdiIcons.accountHeartOutline,iconSuffix: Icons.arrow_drop_down_outlined,textInputAction: TextInputAction.done,isEnable: false, onTapSuffix: (){},onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              showGenPopup(context,'Giới tính','Sex',_listSex);
+            }),
+            inputWidget(readOnly: true,hintText: 'Chọn tỉnh/thành',controller: _provinceController,
+              textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
+              onSubmitted: ()=>null,onTap: (){
+                  FocusScope.of(context).unfocus();
+                  pushNewScreen(context, screen: const SearchProvinceScreen(
+                    idProvince: '',idDistrict: '',title:'Danh sách Tỉnh thành',typeGetList: 0,
+                  ),withNavBar: false).then((value){
+                    if(value[0] == 'Yeah'){
+                      idProvince = value[1].toString().trim();
+                      _provinceController.text = value[2].toString().trim();
+                    }
+                    setState(() {});
+                  });
+                }),
+            inputWidget(readOnly: true,hintText: 'Chọn Quân/Huyện',controller: _districtController,
+              textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
+              onSubmitted: ()=>null,onTap: (){
+                  FocusScope.of(context).unfocus();
+                  if(idProvince.isNotEmpty){
+                    pushNewScreen(context, screen: SearchProvinceScreen(
+                      idProvince: idProvince,idDistrict: '',title:'Danh sách Quận huyện',typeGetList: 0,
+                    ),withNavBar: false).then((value){
+                      if(value[0] == 'Yeah'){
+                        idDistrict = value[1].toString().trim();
+                        _districtController.text = value[2].toString().trim();
+                      }
+                      setState(() {});
+                    });
+                  }else{
+                    Utils.showCustomToast(context, Icons.warning_amber_outlined, 'Vui lòng chọn Tỉnh/Thành trước');
+                  }
+                }),
+            inputWidget(readOnly: true,hintText: 'Chọn Xã/Phường',controller: _communeController,
+              textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
+              onSubmitted: ()=>null,onTap: (){
+                  FocusScope.of(context).unfocus();
+                  if(idDistrict.isNotEmpty){
+                    pushNewScreen(context, screen: SearchProvinceScreen(
+                      idProvince: idProvince,idDistrict: idDistrict,title:'Danh sách Xã phường',typeGetList: 0,
+                    ),withNavBar: false).then((value){
+                      if(value[0] == 'Yeah'){
+                        idCommune = value[1].toString().trim();
+                        _communeController.text = value[2].toString().trim();
+                      }
+                      setState(() {});
+                    });
+                  }else{
+                    Utils.showCustomToast(context, Icons.warning_amber_outlined, 'Vui lòng chọn Quân/Huyện trước');
+                  }
+                }),
+            inputWidget(readOnly: false,hintText: 'Địa chỉ',iconPrefix: MdiIcons.mapMarkerRadiusOutline,controller: addressController,focusNode: addressFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
+
+            inputWidget(readOnly: false,hintText: 'Email',iconPrefix: MdiIcons.emailEditOutline,controller: emailController,focusNode: emailFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
+            inputWidget(readOnly: false,hintText: 'Ghi chú',iconPrefix: MdiIcons.clipboardAccountOutline,controller: notesController,focusNode: notesFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
+            buildButtonSubmit(),
+            SizedBox(height: 10,),
+          ],
+        ),
       ),
     );
   }
 
-  Widget inputWidget2({String? title,String? hideText,IconData? iconPrefix,IconData? iconSuffix, bool? isEnable,
-    TextEditingController? controller,Function? onTapSuffix, Function? onSubmitted,FocusNode? focusNode,bool? isNull,Color? colors,bool? enableMaxLine,
-    TextInputAction? textInputAction,bool inputNumber = false,bool isPhone = false,bool note = false,bool isPassWord = false, bool cod = true,int? maxLength, bool customContainer = false,}){
-    return Padding(
-      padding: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: customContainer == true ? 0 : 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title??'',
-                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12,color: Colors.black),
+  Widget buildPageNew2(BuildContext context,MakeAppointmentState state,bool createNewCustomer){
+    return SingleChildScrollView(
+      child: GestureDetector(
+        onTap: ()=>FocusScope.of(context).unfocus(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 10,),
+            TableCalendar<Event>(
+              rowHeight: 70,
+              daysOfWeekHeight: 20,
+              // isMargin: 0,
+              simpleSwipeConfig: const SimpleSwipeConfig(
+                verticalThreshold: 0.2,
+                swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct,
               ),
-              Visibility(
-                visible: note == true,
-                child: const Text(' *',style: TextStyle(color: Colors.red),),
-              )
-            ],
-          ),
-          const SizedBox(height: 5,),
-          Container(
-            height: customContainer == true ? 60 : 40,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12)
+              calendarBuilders: CalendarBuilders(
+                // todayBuilder: (context, date, _){
+                //   return Padding(
+                //     padding: const EdgeInsets.only(bottom: 11),
+                //     child: Container(
+                //       decoration: new BoxDecoration(
+                //         color: mainColor.withOpacity(0.8),
+                //         shape: BoxShape.circle,
+                //       ),
+                //       // margin: const EdgeInsets.all(4.0),
+                //       width: 45,
+                //       height: 45,
+                //       child: Center(
+                //         child: Text(
+                //           '${date.day}',
+                //           style: TextStyle(
+                //             fontSize: 16.0,
+                //             color: Colors.white,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   );
+                // },
+                  selectedBuilder: (context, date, _) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 11),
+                      child: Container(
+                        decoration:  BoxDecoration(
+                          color: Colors.black.withOpacity(0.7),
+                          shape: BoxShape.circle,
+                          // borderRadius: BorderRadius.circular(150)
+                        ),
+                        // margin: const EdgeInsets.all(4.0),
+                        width: 45,
+                        height: 45,
+                        child: Center(
+                          child: Text(
+                            '${date.day}',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  markerBuilder: (context,date, event){
+                    return Container(
+                      // margin: const EdgeInsets.only(top: 10,bottom: 0),
+                      // padding: const EdgeInsets.all(1),
+                      //height: 12,
+                      //child: Icon(MdiIcons.emoticonPoop,color: Colors.blueGrey.withOpacity(0.5),),
+                    );
+                  }
+              ),
+              firstDay: kFirstDay,
+              lastDay: kLastDay,
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              // rangeStartDay: _rangeStart,
+              // rangeEndDay: _rangeEnd,
+              formatAnimationCurve: Curves.elasticInOut,
+              formatAnimationDuration: const Duration(milliseconds: 500),
+              calendarFormat: _calendarFormat,
+              rangeSelectionMode: _rangeSelectionMode,
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              onHeaderTapped: (_){
+                //print(_);
+              },
+              locale: 'vi',
+              daysOfWeekStyle: DaysOfWeekStyle(
+                  weekendStyle: TextStyle(
+                      color: Colors.red
+                  ),
+                  weekdayStyle: TextStyle(
+                    color: Colors.black,
+                  )
+              ),
+              headerVisible: false,
+              calendarStyle: CalendarStyle(
+                  todayTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16
+                  ),
+                  weekendTextStyle: TextStyle(
+                      color: Colors.red,
+                      fontSize: 16
+                  ),
+                  outsideTextStyle: const TextStyle(color: Colors.blueGrey),
+                  withinRangeTextStyle: const TextStyle(color: Colors.grey),
+                  defaultTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16
+                  ),
+                  canMarkersOverflow: true,
+                  outsideDaysVisible: false,
+                  holidayTextStyle: const TextStyle(
+                      color: Colors.yellow
+                  )
+              ),
+              onDaySelected: _onDaySelected,
+              // onRangeSelected: _onRangeSelected,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                setState(() {
+                  _focusedDay = focusedDay;
+                });
+              },
             ),
-            child: TextFieldWidget2(
-              controller: controller!,
-              suffix: iconSuffix,
-              textInputAction: textInputAction!,
-              isEnable: isEnable ?? true,
-              keyboardType: inputNumber == true ? TextInputType.phone : TextInputType.text,
-              hintText: hideText,
-              isNull: isNull,
-              color: colors,
-              enableMaxLine: enableMaxLine,
-              focusNode: focusNode,
-              onChanged: (string){},
-              onSubmitted: (text)=> onSubmitted,
-              isPassword: isPassWord,
-              inputFormatter: customContainer == true ? [FilteringTextInputFormatter.digitsOnly]: [],
+            Row(
+              children: [
+                const SizedBox(width: 20,),
+                avatarWidget(),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      inputWidget(hintText: 'Số điện thoại',iconPrefix: MdiIcons.phoneDialOutline,iconSuffix: Icons.edit, onTap: (){}
+                          ,controller: phoneController2,textInputAction: TextInputAction.done,focusNode: fullNameFocus,readOnly: createNewCustomer, onTapSuffix: () {  }),
+                      inputWidget(readOnly: createNewCustomer,
+                          hintText: 'Họ & tên',iconPrefix: MdiIcons.accountEditOutline,controller: fullNameController2,focusNode: phoneFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
+                      const SizedBox(height: 10,),
+                    ],
+                  ),
+                )
+              ],
             ),
-          ),
-        ],
+            inputWidget(readOnly: true,hintText: 'Cơ sở',iconPrefix: MdiIcons.storefrontOutline,iconSuffix: Icons.arrow_drop_down_outlined,textInputAction: TextInputAction.done,isEnable: false,controller: storeController, onTapSuffix: (){},onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              showGenPopupStore(context,'Cơ sở','Store',Const.listInfoStore);
+            }),
+            inputWidget(readOnly: true,hintText: 'Phiếu',iconPrefix: MdiIcons.idCard,iconSuffix: Icons.arrow_drop_down_outlined,isEnable: false,textInputAction: TextInputAction.done,controller: phieuController, onTapSuffix: (){},onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              showGenPopup(context,'Loại phiếu','Phieu',_bloc.listPhieu);
+            }),
+
+            inputWidget(readOnly: true,hintText: 'Ngày sinh',controller: birthDayController2,iconPrefix: MdiIcons.calendarAccountOutline,iconSuffix: Icons.arrow_drop_down_outlined,isEnable: false,textInputAction: TextInputAction.done,onTapSuffix: ()=> print('123'),onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              Utils.dateTimePickerCustom(context).then((date){
+                if(date != null){
+                  setState(() {
+                    ngaySinh = Jiffy(date).format('yyyy-MM-dd');
+                    birthDayController2.text = Jiffy(date).format('dd-MM-yyyy');
+                  });
+                }
+              });
+            }),
+            inputWidget(readOnly: true,hintText: 'Giới tính',controller: sexController2,iconPrefix: MdiIcons.accountHeartOutline,iconSuffix: Icons.arrow_drop_down_outlined,textInputAction: TextInputAction.done,isEnable: false, onTapSuffix: (){},onTap: (){
+              FocusScope.of(context).requestFocus(new FocusNode());
+              showGenPopup(context,'Giới tính','Sex',_listSex);
+            }),
+            inputWidget(readOnly: true,hintText: 'Chọn tỉnh/thành',controller: _provinceController2,
+                textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
+                onSubmitted: ()=>null,onTap: (){
+                  FocusScope.of(context).unfocus();
+                  pushNewScreen(context, screen: const SearchProvinceScreen(
+                    idProvince: '',idDistrict: '',title:'Danh sách Tỉnh thành',typeGetList: 0,
+                  ),withNavBar: false).then((value){
+                    if(value[0] == 'Yeah'){
+                      idProvince2 = value[1].toString().trim();
+                      _provinceController2.text = value[2].toString().trim();
+                    }
+                    setState(() {});
+                  });
+                }),
+            inputWidget(readOnly: true,hintText: 'Chọn Quân/Huyện',controller: _districtController2,
+                textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
+                onSubmitted: ()=>null,onTap: (){
+                  FocusScope.of(context).unfocus();
+                  if(idProvince2.isNotEmpty){
+                    pushNewScreen(context, screen: SearchProvinceScreen(
+                      idProvince: idProvince2,idDistrict: '',title:'Danh sách Quận huyện',typeGetList: 0,
+                    ),withNavBar: false).then((value){
+                      if(value[0] == 'Yeah'){
+                        idDistrict2 = value[1].toString().trim();
+                        _districtController2.text = value[2].toString().trim();
+                      }
+                      setState(() {});
+                    });
+                  }else{
+                    Utils.showCustomToast(context, Icons.warning_amber_outlined, 'Vui lòng chọn Tỉnh/Thành trước');
+                  }
+                }),
+            inputWidget(readOnly: true,hintText: 'Chọn Xã/Phường',controller: _communeController2,
+                textInputAction: TextInputAction.done, onTapSuffix: (){},isEnable: false,iconPrefix: Icons.search_outlined,
+                onSubmitted: ()=>null,onTap: (){
+                  FocusScope.of(context).unfocus();
+                  if(idDistrict2.isNotEmpty){
+                    pushNewScreen(context, screen: SearchProvinceScreen(
+                      idProvince: idProvince2,idDistrict: idDistrict2,title:'Danh sách Xã phường',typeGetList: 0,
+                    ),withNavBar: false).then((value){
+                      if(value[0] == 'Yeah'){
+                        idCommune2 = value[1].toString().trim();
+                        _communeController2.text = value[2].toString().trim();
+                      }
+                      setState(() {});
+                    });
+                  }else{
+                    Utils.showCustomToast(context, Icons.warning_amber_outlined, 'Vui lòng chọn Quân/Huyện trước');
+                  }
+                }),
+            inputWidget(readOnly: false,hintText: 'Địa chỉ',iconPrefix: MdiIcons.mapMarkerRadiusOutline,controller: addressController2,focusNode: addressFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
+            inputWidget(readOnly: false,hintText: 'Email',iconPrefix: MdiIcons.emailEditOutline,controller: emailController2,focusNode: emailFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
+            inputWidget(readOnly: false,hintText: 'Ghi chú',iconPrefix: MdiIcons.clipboardAccountOutline,controller: notesController2,focusNode: notesFocus,textInputAction: TextInputAction.done, onTapSuffix: (){}),
+            buildButtonSubmit2(),
+            SizedBox(height: 10,),
+          ],
+        ),
       ),
     );
   }
 
-  Widget inputWidget({String? hideText,IconData? iconPrefix,IconData? iconSuffix, bool? isEnable,
+  Widget inputWidget({String? hintText,IconData? iconPrefix,IconData? iconSuffix, bool? isEnable,
     required TextEditingController controller,required Callback onTapSuffix, Function? onSubmitted,FocusNode? focusNode,
-    required TextInputAction textInputAction,bool inputNumber = false}){
+    required TextInputAction textInputAction,bool inputNumber = false,bool readOnly = false,VoidCallback? onTap,}){
     return Padding(
       padding: const EdgeInsets.only(top: 10,left: 16,right: 16),
-      child: TextFieldWidgetInput(
-        hintText: hideText,
-        prefixIcon: iconPrefix,
-        suffix: iconSuffix,
-        isEnable: isEnable == null ? true : isEnable,
+      child: TextField(
+        autofocus: false,
+        enableInteractiveSelection: readOnly ? true : null,
+        onTap: readOnly ? onTap : null,
+        readOnly: readOnly,
+        textAlign: TextAlign.left,
+        textAlignVertical: TextAlignVertical.center,
+        style: const TextStyle(color: Color(0xFF3B3935), fontSize: 13),
         controller: controller,
-        onTapSuffix: onTapSuffix,
-        onSubmitted:(text)=> onSubmitted,
-        focusNode: focusNode,
-        textInputAction: textInputAction,
-        keyboardType:inputNumber == true ? TextInputType.phone : TextInputType.text,
+        keyboardType: inputNumber == true ?  TextInputType.number : TextInputType.text,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(24)),
+              borderSide: BorderSide(
+                  color: Colors.grey,width: 1),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(24)),
+              borderSide: BorderSide(width: 1,color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(24)),
+              borderSide: BorderSide(
+                color: Colors.grey,),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(24)),
+              borderSide: BorderSide(
+                color: Colors.grey, ),
+            ),
+            filled: true,
+            fillColor: transparent,
+            hintText: hintText.toString(),
+            hintStyle: const TextStyle(color: accent),
+            // suffixIcon: Icon(EneftyIcons.edit_outline,size: 15,color: Colors.grey),
+            // suffixIconConstraints: BoxConstraints(maxWidth: 20),
+            prefixIcon: iconPrefix == null
+                ? null
+                : Icon(iconPrefix,size: 18,),
+            suffixIcon: iconSuffix == null
+                ? null
+                : Icon(iconSuffix,size: 18,),
+            contentPadding: const EdgeInsets.only(left: 15,bottom: 10, top: 0,right: 5)
+        ),
+       // onChanged: (text)=>onchange(text),
       ),
     );
   }
@@ -680,6 +969,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
         else if(keys =='Sex'){
           setState(() {
             sexController.text = value[1];
+            sexController2.text = value[1];
             idSex =_listSex.indexOf(value[1]) + 1;
           });
         }
@@ -785,7 +1075,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
           );
         }
     ).then((value){
-      if(!Utils.isEmpty(value)){
+      if(value != null){
         setState(() {
           storeController.text = value[1];
           idStore = value[2];
@@ -802,7 +1092,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
             Container(
               height: 120.0,
               width: 120.0,
-              child: _bloc.file == null ? Container(
+              child: _bloc.file.toString().isEmpty ? Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   border: Border.all(color: Colors.blueGrey)
@@ -846,14 +1136,14 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FlatButton(
+                  ElevatedButton(
                     child: Text("Thư viện"),
                     onPressed: () {
                       _bloc.add(UploadAvatarEvent(false));
                       Navigator.pop(context);
                     },
                   ),
-                  FlatButton(
+                  ElevatedButton(
                     child: Text("Máy Ảnh"),
                     onPressed: () {
                       _bloc.add(UploadAvatarEvent(true));
@@ -867,13 +1157,12 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
         });
   }
 
-
   Widget buildButtonSubmit(){
     return  Padding(
       padding: const EdgeInsets.only(left: 16,right: 16,top: 30,bottom: 30),
       child: GestureDetector(
         onTap: (){
-         if(!Utils.isEmpty(fullNameController.text) && !Utils.isEmpty(phoneController.text) && !Utils.isEmpty(birthDayController.text) && !Utils.isEmpty(addressController.text) ){
+         if(!Utils.isEmpty(fullNameController.text) ){
            _bloc.add(CreatesMakeAppointmentEvent(
                phoneController.text,
                fullNameController.text,
@@ -888,7 +1177,9 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
                isFree,
               idProvince: idProvince,
              idDistrict: idDistrict,
-             idCommune: idCommune
+             idCommune: idCommune,
+             maKH: itemReSearch.maKh.toString().trim(),
+             createNewCustomer: 0
            ));
          }else{
            Utils.showCustomToast(context,Icons.warning_amber_outlined,'Vui lòng nhập đầy đủ thông tin trên phiếu');
@@ -914,6 +1205,52 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
       ),
     );
   }
-
-
+  Widget buildButtonSubmit2(){
+    return  Padding(
+      padding: const EdgeInsets.only(left: 16,right: 16,top: 30,bottom: 30),
+      child: GestureDetector(
+        onTap: (){
+         if(!Utils.isEmpty(fullNameController2.text) ){
+           _bloc.add(CreatesMakeAppointmentEvent(
+               phoneController2.text,
+               fullNameController2.text,
+               birthDayController2.text,
+               idSex,
+               Jiffy(_selectedDay??_focusedDay).format('yyyy-MM-dd'),
+               idStore,
+               addressController2.text,
+               emailController2.text,
+               notesController2.text,
+               dataType.toString(),
+               isFree,
+              idProvince: idProvince2,
+             idDistrict: idDistrict2,
+             idCommune: idCommune2,
+             maKH: '',
+             createNewCustomer: 1
+           ));
+         }else{
+           Utils.showCustomToast(context,Icons.warning_amber_outlined,'Vui lòng nhập đầy đủ thông tin trên phiếu');
+         }
+        },
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            height: 45.0,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18.0),
+                color: mainColor
+            ),
+            child: Center(
+              child: Text(
+                'Đặt lịch',
+                style: TextStyle(fontSize: 16, color: white,),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

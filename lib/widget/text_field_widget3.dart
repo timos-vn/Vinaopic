@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/core/values/colors.dart';
 
 class TextFieldWidgetInput extends StatefulWidget {
@@ -16,7 +15,7 @@ class TextFieldWidgetInput extends StatefulWidget {
         this.errorText,
         this.labelText,
         this.hintText,
-        this.keyboardType: TextInputType.text,
+        this.keyboardType = TextInputType.text,
         this.focusNode,
         this.onSubmitted,
         this.prefixIcon,

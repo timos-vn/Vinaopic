@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:io' show Platform;
 import 'package:get/get.dart' as libGetX;
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vinaoptic/core/untils/const.dart';
-import 'package:vinaoptic/core/untils/log.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/models/network/request/get_list_awaiting_request.dart';
 import 'package:vinaoptic/models/network/request/get_list_order_request.dart';

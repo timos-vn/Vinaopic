@@ -22,11 +22,13 @@ class CreatesMakeAppointmentEvent extends MakeAppointmentEvent {
   final String idProvince;
   final String idDistrict;
   final String idCommune;
+  final String maKH;
+  final int createNewCustomer;
 
 
   CreatesMakeAppointmentEvent(this.phoneNumber, this.fullName, this.birthday,
       this.sex,this.date,this.idStore, this.address,  this.email, this.note,this.status,this.traPhi,
-  {required  this.idProvince,required this.idDistrict,required this.idCommune}
+  {required  this.idProvince,required this.idDistrict,required this.idCommune, required this.maKH, required this.createNewCustomer}
       );
 
   @override

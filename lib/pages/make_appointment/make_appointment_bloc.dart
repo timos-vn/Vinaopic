@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:get/get.dart' as libGet;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -59,10 +59,8 @@ class MakeAppointmentBloc extends Bloc<MakeAppointmentEvent,MakeAppointmentState
   void _dateFromEvent(DateFrom event, Emitter<MakeAppointmentState> emitter)async{
     emitter(MakeAppointmentLoading());
     _dateFrom = event.date;
-    if (_dateFrom != null) {
-      emitter(PickDateSuccess());
-      return;
-    }
+    emitter(PickDateSuccess());
+    return;
   }
 
   void _createsMakeAppointmentEvent(CreatesMakeAppointmentEvent event, Emitter<MakeAppointmentState> emitter)async{
@@ -86,7 +84,9 @@ class MakeAppointmentBloc extends Bloc<MakeAppointmentEvent,MakeAppointmentState
         image: file.path.isNotEmpty ? Utils.base64Image(file) : null  ,
         idProvince: event.idProvince,
         idDistrict: event.idDistrict,
-        idCommune: event.idCommune
+        idCommune: event.idCommune,
+        maKH: event.maKH.toString().trim(),
+        createNewCustomer: event.createNewCustomer
     );
     MakeAppointmentState state = _handleCreateMakeAppointment(await _networkFactory!.createsMakeAppointment(requestBody,_accessToken!));
     emitter(state);
@@ -118,6 +118,7 @@ class MakeAppointmentBloc extends Bloc<MakeAppointmentEvent,MakeAppointmentState
     emitter(MakeAppointmentLoading());
     final image = await imagePicker.getImage(source: ImageSource.camera,imageQuality: 65);
     file = File(image!.path);
+    print(file);
     emitter(PickAvatarSuccess());
   }
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -12,9 +11,7 @@ import 'models/database/dbhelper.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runZoned(() {
-    runApp(MyApp());
-  });
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget  {

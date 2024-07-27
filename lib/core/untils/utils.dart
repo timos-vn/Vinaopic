@@ -5,18 +5,65 @@ import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:vinaoptic/core/values/images.dart';
-import 'package:vinaoptic/models/network/response/login_response.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui' as ui;
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../../widget/custom_toast.dart';
 import '../values/colors.dart';
-import 'const.dart';
 
 class Utils {
+
+  static Future<DateTime?> dateTimePickerCustom(BuildContext context) async {
+    DateTime? dateTime = DateTime.now();
+    dateTime = await showOmniDateTimePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1600).subtract(const Duration(days: 3652)),
+      lastDate: DateTime.now().add(
+        const Duration(days: 3652),
+      ),
+      is24HourMode: false,
+      isShowSeconds: false,
+      type: OmniDateTimePickerType.date,
+      minutesInterval: 1,
+      secondsInterval: 1,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      constraints: const BoxConstraints(
+        maxWidth: 350,
+        maxHeight: 650,
+      ),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.orange,
+      ),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: anim1.drive(
+            Tween(
+              begin: 0,
+              end: 1,
+            ),
+          ),
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 200),
+      barrierDismissible: false,
+      selectableDayPredicate: (dateTime) {
+        // Disable 25th Feb 2023
+        if (dateTime == DateTime(2023, 2, 25)) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    );
+    return dateTime;
+  }
+
   static String convertKeySearch(String keySearch) {
     String convertString = '';
     if(keySearch.contains(' ')){
@@ -147,8 +194,8 @@ class Utils {
   }
 
   static bool isEmpty(Object text) {
-    if (text is String) return text == null || text.isEmpty;
-    if (text is List) return text == null || text.isEmpty;
+    if (text is String) return text.isEmpty;
+    if (text is List) return text.isEmpty;
     return text == null;
   }
 
@@ -204,23 +251,21 @@ class Utils {
 
   static String parseStringDateToString(String dateSv, String fromFormat, String toFormat) {
     String date = "";
-    if (dateSv != null)
-      try {
-        date = DateFormat(toFormat, "en_US")
-            .format(DateFormat(fromFormat).parse(dateSv));
-      } on FormatException catch (e) {
-        print(e);
-      }
+    try {
+      date = DateFormat(toFormat, "en_US")
+          .format(DateFormat(fromFormat).parse(dateSv));
+    } on FormatException catch (e) {
+      print(e);
+    }
     return date;
   }
   static String parseDateToString(DateTime dateTime, String format) {
     String date = "";
-    if (dateTime != null)
-      try {
-        date = DateFormat(format).format(dateTime);
-      } on FormatException catch (e) {
-        print(e);
-      }
+    try {
+      date = DateFormat(format).format(dateTime);
+    } on FormatException catch (e) {
+      print(e);
+    }
     return date;
   }
 
@@ -236,7 +281,7 @@ class Utils {
       content: Text(text),
       backgroundColor: primaryColor,
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    Scaffold.of(context).showBottomSheet((context) => snackBar);
   }
 
   static void showForegroundNotification(BuildContext context, String title, String text, {VoidCallback? onTapNotification}) {
@@ -279,7 +324,7 @@ class Utils {
         String? title,
         required Widget contentWidget,
         required List<Widget> actions,
-        bool dismissible: false}) =>
+        bool dismissible = false}) =>
       showDialog(
           barrierDismissible: dismissible,
           context: context,
