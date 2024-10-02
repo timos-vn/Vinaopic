@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -454,7 +453,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> with TickerPr
                                   idCommune = itemReSearch.idCommune.toString().trim();
                                   if(itemReSearch.ngaySinh!=null){
                                     ngaySinh = itemReSearch.ngaySinh.toString();
-                                    birthDayController.text = Jiffy(itemReSearch.ngaySinh).format('dd-MM-yyyy');
+                                    birthDayController.text = Utils.parseStringToDate(itemReSearch.ngaySinh.toString(), Const.DATE_SV_FORMAT_2,).toString();
                                   }
                                   sexController.text = itemReSearch.sex == 2 ? 'Nữ' : itemReSearch.sex == 1 ? 'Nam' : 'Khác';
                                   idSex = itemReSearch.sex!;
@@ -485,8 +484,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> with TickerPr
               Utils.dateTimePickerCustom(context).then((date){
                 if(date != null){
                   setState(() {
-                    ngaySinh = Jiffy(date).format('yyyy-MM-dd');
-                    birthDayController.text = Jiffy(date).format('dd-MM-yyyy');
+                    ngaySinh =   Utils.parseDateToString(date, Const.DATE_SV_FORMAT_2);
+                    birthDayController.text =   Utils.parseDateToString(date, Const.DATE_SV_FORMAT_2);
                   });
                 }
               });
@@ -724,8 +723,9 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> with TickerPr
               Utils.dateTimePickerCustom(context).then((date){
                 if(date != null){
                   setState(() {
-                    ngaySinh = Jiffy(date).format('yyyy-MM-dd');
-                    birthDayController2.text = Jiffy(date).format('dd-MM-yyyy');
+
+                    ngaySinh =   Utils.parseDateToString(date, Const.DATE_SV_FORMAT_2);
+                    birthDayController2.text =   Utils.parseDateToString(date, Const.DATE_SV_FORMAT_2);
                   });
                 }
               });
@@ -1168,7 +1168,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> with TickerPr
                fullNameController.text,
                ngaySinh,
                idSex,
-               Jiffy(_selectedDay??_focusedDay).format('yyyy-MM-dd'),
+               Utils.parseDateToString(_selectedDay??_focusedDay, Const.DATE_SV_FORMAT_2),
                idStore,
                addressController.text,
                emailController.text,
@@ -1216,7 +1216,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> with TickerPr
                fullNameController2.text,
                birthDayController2.text,
                idSex,
-               Jiffy(_selectedDay??_focusedDay).format('yyyy-MM-dd'),
+               Utils.parseDateToString(_selectedDay??_focusedDay, Const.DATE_SV_FORMAT_2),
                idStore,
                addressController2.text,
                emailController2.text,

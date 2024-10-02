@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vinaoptic/core/untils/utils.dart';
 import 'package:vinaoptic/core/values/colors.dart';
@@ -10,6 +9,7 @@ import 'package:vinaoptic/models/network/response/lich_hen_response.dart';
 import 'package:vinaoptic/pages/detail_appointment/detail_appointment_page.dart';
 import 'package:vinaoptic/widget/pending_action.dart';
 
+import '../../../core/untils/const.dart';
 import '../appointment_schedule_bloc.dart';
 import '../appointment_schedule_event.dart';
 import '../appointment_schedule_state.dart';
@@ -33,14 +33,14 @@ class _HuyPagePageState extends State<HuyPage> {
     super.initState();
 
     _bloc = AppointmentScheduleBloc(context);
-    _bloc.add(GetList(Jiffy(DateTime.now(), "dd-MM-yyyy").format("yyyy-MM-dd"),Jiffy(DateTime.now(), "dd-MM-yyyy").format("yyyy-MM-dd"), status: '3'));
+    _bloc.add(GetList(Utils.parseDateToString(DateTime.now(), Const.DATE_SV_FORMAT_2),Utils.parseDateToString(DateTime.now(), Const.DATE_SV_FORMAT_2), status: '3'));
     _scrollController = ScrollController();
 
     _scrollController.addListener(() {
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.position.pixels;
       if (maxScroll - currentScroll <= _scrollThreshold && !_hasReachedMax && _bloc.isScroll == true) {
-        _bloc.add(GetList(Jiffy(DateTime.now(), "dd-MM-yyyy").format("yyyy-MM-dd"),Jiffy(DateTime.now(), "dd-MM-yyyy").format("yyyy-MM-dd"),isLoadMore: true, status: '3'));
+        _bloc.add(GetList(Utils.parseDateToString(DateTime.now(), Const.DATE_SV_FORMAT_2),Utils.parseDateToString(DateTime.now(), Const.DATE_SV_FORMAT_2),isLoadMore: true, status: '3'));
       }
     });
   }

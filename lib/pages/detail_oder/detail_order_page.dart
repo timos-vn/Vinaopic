@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
@@ -121,96 +120,6 @@ class _DetailOrderPageState extends State<DetailOrderPage>{
 
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<DetailOrderBloc,DetailOrderState>(
-      bloc: _bloc,
-      listener: (context,state){
-        if(state is CheckScanDataSuccess){
-          print('on');
-          ShowOnDialogInputInfo();
-        }else if(state is SendInvoiceSuccess){
-          Utils.showCustomToast(context,Icons.check_circle_outline,'Đặt đơn hàng thành công.');
-          Navigator.pop(context,Const.REFRESH);
-        }else if(state is UpdateOrderSuccess){
-          Utils.showCustomToast(context,Icons.check_circle_outline,'Cập nhật đơn hàng thành công');
-          Navigator.pop(context,Const.REFRESH);
-        }else if (state is CreateNewsCustomerSuccess){
-
-        }else if(state is GetDetailOrderSuccess){
-          fullNameController.text = _bloc.listMaster[0].tenKh.toString();
-          phoneController.text = _bloc.listMaster[0].dienThoai.toString();
-          dienGiaiController.text = widget.dienGiai.toString();
-          _bloc.listProduct.forEach((element) {
-            ItemScanData itemScanData = ItemScanData(
-                dvt: element.dvt,soLuong: element.soLuong,maKho: element.maKho,heSo: 0,gia: element.giaNt2,tlCk: element.tlCk,
-                stock: 0, imageUrl: '',nuocSx: element.nuocSx,maVt: element.maVt,tenVt: element.tenVt,nhVt1: '',nhVt2: '',nhVt3: '',
-                status: 0,brand: '',color: '',eyeSize: 0.0,bridgeSize: 0.0
-            );
-            _listChildItemScan.add(itemScanData);
-          });
-          _bloc.add(CheckDataEvent(widget.maKH,listItemDetail: _bloc.listProduct));
-        }else if(state is DetailOrderFailure){
-          Utils.showCustomToast(context,Icons.warning_amber_outlined,state.error);
-        }
-      },
-      child: BlocBuilder<DetailOrderBloc,DetailOrderState>(
-        bloc: _bloc,
-        builder: (BuildContext context,DetailOrderState state){
-          return Scaffold(
-              appBar: AppBar(
-                backgroundColor: mainColor,
-                title: Text('Chi tiết đơn hàng',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
-                centerTitle: true,
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Row(
-                      children: [
-                        InkWell(
-                            onTap:()=> widget.typeView == 1 ? pushNewScreen(context, screen: FormChinhQuangPage(),withNavBar: false).then((value) {
-                              if(value!= 'null' && value != null){
-                                cpDetail = value[0];
-                                image = value[1];
-                              }
-                            }): null,
-                            child: Icon(MdiIcons.microsoftOnenote,color: widget.typeView == 1 ? Colors.white : mainColor  ,)),
-                        SizedBox(width: 20,),
-                        GestureDetector(
-                            onTap: (){
-                              if( widget.typeView == 1){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCodePage(typeView: 1,))).then((value) {
-                                  if(!Utils.isEmpty(value)){
-                                    var lisk = value[0];
-                                    List<ItemScanData> listChildItemSelected = [];
-                                    listChildItemSelected = lisk;
-                                    if( _listChildItemScan.isNotEmpty){
-                                      _listChildItemScan.clear();
-                                    }
-                                    _bloc.add(CheckListProductOrderEvent(listChildItemSelected));
-                                  }
-                                });
-                              }
-
-                            },
-                            child: Icon(Icons.qr_code_scanner_outlined,color: widget.typeView == 1 ? Colors.white : mainColor,)),
-                        SizedBox(width: 10,),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              body: buildPage(context, state));
-        },
-      ),
-    );
-
-    //   Scaffold(
-    //     resizeToAvoidBottomInset : false,
-    //     body:
-    // );
-  }
-
   void ShowOnDialogInputInfo(){
     showAnimatedDialog(
       context: context,
@@ -310,7 +219,7 @@ class _DetailOrderPageState extends State<DetailOrderPage>{
                         Utils.dateTimePickerCustom(context).then((date){
                           if(date != null){
                             setState(() {
-                              birthDayController.text = Jiffy(date).format('dd-MM-yyyy');
+                              birthDayController.text = Utils.parseDateToString(date, Const.DATE_SV_FORMAT_2);
                             });
                           }
                         });
@@ -477,6 +386,96 @@ class _DetailOrderPageState extends State<DetailOrderPage>{
         );
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<DetailOrderBloc,DetailOrderState>(
+      bloc: _bloc,
+      listener: (context,state){
+        if(state is CheckScanDataSuccess){
+          print('on');
+          ShowOnDialogInputInfo();
+        }else if(state is SendInvoiceSuccess){
+          Utils.showCustomToast(context,Icons.check_circle_outline,'Đặt đơn hàng thành công.');
+          Navigator.pop(context,Const.REFRESH);
+        }else if(state is UpdateOrderSuccess){
+          Utils.showCustomToast(context,Icons.check_circle_outline,'Cập nhật đơn hàng thành công');
+          Navigator.pop(context,Const.REFRESH);
+        }else if (state is CreateNewsCustomerSuccess){
+
+        }else if(state is GetDetailOrderSuccess){
+          fullNameController.text = _bloc.listMaster[0].tenKh.toString();
+          phoneController.text = _bloc.listMaster[0].dienThoai.toString();
+          dienGiaiController.text = widget.dienGiai.toString();
+          _bloc.listProduct.forEach((element) {
+            ItemScanData itemScanData = ItemScanData(
+                dvt: element.dvt,soLuong: element.soLuong,maKho: element.maKho,heSo: 0,gia: element.giaNt2,tlCk: element.tlCk,
+                stock: 0, imageUrl: '',nuocSx: element.nuocSx,maVt: element.maVt,tenVt: element.tenVt,nhVt1: '',nhVt2: '',nhVt3: '',
+                status: 0,brand: '',color: '',eyeSize: 0.0,bridgeSize: 0.0
+            );
+            _listChildItemScan.add(itemScanData);
+          });
+          _bloc.add(CheckDataEvent(widget.maKH,listItemDetail: _bloc.listProduct));
+        }else if(state is DetailOrderFailure){
+          Utils.showCustomToast(context,Icons.warning_amber_outlined,state.error);
+        }
+      },
+      child: BlocBuilder<DetailOrderBloc,DetailOrderState>(
+        bloc: _bloc,
+        builder: (BuildContext context,DetailOrderState state){
+          return Scaffold(
+              appBar: AppBar(
+                backgroundColor: mainColor,
+                title: Text('Chi tiết đơn hàng',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
+                centerTitle: true,
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Row(
+                      children: [
+                        InkWell(
+                            onTap:()=> widget.typeView == 1 ? pushNewScreen(context, screen: FormChinhQuangPage(),withNavBar: false).then((value) {
+                              if(value!= 'null' && value != null){
+                                cpDetail = value[0];
+                                image = value[1];
+                              }
+                            }): null,
+                            child: Icon(MdiIcons.microsoftOnenote,color: widget.typeView == 1 ? Colors.white : mainColor  ,)),
+                        SizedBox(width: 20,),
+                        GestureDetector(
+                            onTap: (){
+                              if( widget.typeView == 1){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCodePage(typeView: 1,))).then((value) {
+                                  if(!Utils.isEmpty(value)){
+                                    var lisk = value[0];
+                                    List<ItemScanData> listChildItemSelected = [];
+                                    listChildItemSelected = lisk;
+                                    if( _listChildItemScan.isNotEmpty){
+                                      _listChildItemScan.clear();
+                                    }
+                                    _bloc.add(CheckListProductOrderEvent(listChildItemSelected));
+                                  }
+                                });
+                              }
+
+                            },
+                            child: Icon(Icons.qr_code_scanner_outlined,color: widget.typeView == 1 ? Colors.white : mainColor,)),
+                        SizedBox(width: 10,),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              body: buildPage(context, state));
+        },
+      ),
+    );
+
+    //   Scaffold(
+    //     resizeToAvoidBottomInset : false,
+    //     body:
+    // );
   }
 
 

@@ -160,11 +160,11 @@ class HomePageState extends State<HomePage>  with TickerProviderStateMixin{
       width: double.infinity,
       child: Column(
         children: [
-          Container(
-            height: 200,
-            width: double.infinity,
-            child: Utils.isEmpty(slider) ? Container(color: Colors.blueGrey,) : CustomCarousel(items: slider,),
-          ),//
+          // Container(
+          //   height: 200,
+          //   width: double.infinity,
+          //   child: Utils.isEmpty(slider) ? Container(color: Colors.blueGrey,) : CustomCarousel(items: slider,),
+          // ),//
           menu(),
           Expanded(
             child: AppointmentSchedulePage(),
